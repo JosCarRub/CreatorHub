@@ -54,12 +54,6 @@ class TipoDeOferta(models.Model):
     def __init__(self):
         return f'Tipo de oferta: {self.tipo}'
 
-class RangoPuntuacion(models.IntegerChoices):
-    MUY_MALA = 1, 'Muy mala'
-    MALA = 2, 'Mala'
-    REGULAR = 3, 'Regular'
-    BUENA = 4, 'Buena'
-    EXCELENTE = 5, 'Excelente'
     
 class AplicacionOferta(models.Model):
 
@@ -69,14 +63,19 @@ class AplicacionOferta(models.Model):
         ('solicitada', 'Solicitada'),
     ]
 
+    RANGO_PUNTUACION = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+    ]
+
     #usuario_id
-    oferta_id = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="ofertas")
+    oferta_id = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="oferta_aplicada")
     estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA, verbose_name='Estado de la aplicación a la oferta')
     fecha_expiracion = models.DateField()
-    puntuacion = models.IntegerChoices(RangoPuntuacion.choices, verbose_name = 'Puntuación',
-                                        null=True,  
-                                        blank=True,  
-                                        )
+    puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION)
 
 
     
