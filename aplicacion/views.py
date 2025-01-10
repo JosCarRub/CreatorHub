@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView ,TemplateView
 from .models import *
 
 # Create your views here.
-class HomeView(ListView):
-    model = Oferta
+class HomeView(TemplateView):
     template_name = 'home.html'

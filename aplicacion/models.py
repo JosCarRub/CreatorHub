@@ -75,11 +75,10 @@ class AplicacionOferta(models.Model):
     oferta_id = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="oferta_aplicada")
     estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA, verbose_name='Estado de la aplicación a la oferta')
     fecha_expiracion = models.DateField()
-    puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION)
+    puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
 
-
-    
     #FUNCION CLEAN PARA VALIDAR QUE SI ESTÁ LA OFERTA HECHA SE PUEDE PUNTUAR
+   
 
 
     class Meta:

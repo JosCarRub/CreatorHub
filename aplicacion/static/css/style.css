@@ -1,0 +1,41 @@
+body {
+    background-color: #606ba4;
+    font-family: "Jersey 15", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+button {
+    background: none;
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 1em 2em;
+    color: #ffa260;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 4rem;
+  }
+
+  button {  
+    color: #fff;
+    transition: 0.25s;
+    
+    &:hover,
+    &:focus { 
+      border-color: #fff;
+      
+      color: #e66885;
+    }
+  }
+
+.raise:hover,
+.raise:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+
