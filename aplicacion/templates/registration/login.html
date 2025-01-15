@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,9 +17,9 @@
     <div class="cuadro-login">
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
             <button type="submit" class="boton-iniciar">Iniciar sesión</button>
-            <p>¿No tienes una cuenta? <a href="{% url 'admin:index' %}">Contacta al administrador</a></p>
+            <p>¿No tienes una cuenta? <a href="{% url 'admin:index' %}">Resgistrate aquí</a></p>
         </form>
     </div>  
     

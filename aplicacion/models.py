@@ -1,14 +1,31 @@
 from django.db import models
 from django.forms import ValidationError
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+class UsuarioGenerico(AbstractUser):
+    ROLES = [
+        ('EMPRESA', 'Empresa'),
+        ('PARTICULAR', 'Particular'),
+    ]
 
-#class Usuario(User):
-    #nombre = models.CharField(max_length=50, verbose_name= 'Nombre de usuario')
-    #email = models.EmailField()
-    #preguntar JI
+    nombre = models.CharField(max_length=150)
+    email = models.EmailField(unique=True)
+    biografia = models.TextField(blank=True, null=True)
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+    rol = models.CharField(max_length=10, choices=ROLES, default='PARTICULAR')
+    instagram = models.CharField(max_length=150, blank=True, null=True)
+    tiktok = models.CharField(max_length=150, blank=True, null=True)
+    otras_rrss = models.CharField(max_length=100, blank=True, null=True)
+    num_trabajos = models.PositiveIntegerField(default=0, blank=True, null=True)
+    puntuacion_promedio = models.FloatField(default=0.0, blank=True, null=True)
 
+   
+    def __str__(self):
+        if self.rol == 'EMPRESA':
+            return f'Empresa: {self.nombre} | Email: {self.email}'
+        else:
+            return f'Nombre: {self.nombre} | Email: {self.email}'
 
 class Oferta(models.Model):
     PLATAFORMA_OPCIONES = [
