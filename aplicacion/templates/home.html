@@ -9,12 +9,13 @@
 
     <div class="inicio-sesion">
         <h1>¿Estás registrado?</h1>
+        
         <form action="{% url 'login'%}" method="post" class="form-botones">
             {% csrf_token %}
             <button class="raise" type="submit">SI</button>
             <button class="raise" type="submit">NO</button>
         </form>
-        <a href="#" class="enlace-registro">Si no tienes cuenta registrate aquí</a>
+        <p>Si no tienes cuenta <a href="#" class="enlace-registro">registrate aquí</a></p>
     </div>        
 {% endblock %}
 
