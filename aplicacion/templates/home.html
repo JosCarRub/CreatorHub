@@ -5,17 +5,14 @@
 
 
 <h1> PÁGINA DE INICIO </h1>
-
-
     <div class="inicio-sesion">
         <h1>¿Estás registrado?</h1>
-        
         <form action="{% url 'login'%}" method="post" class="form-botones">
             {% csrf_token %}
             <button class="raise" type="submit">SI</button>
             <button class="raise" type="submit">NO</button>
         </form>
-        <p>Si no tienes cuenta <a href="#" class="enlace-registro">registrate aquí</a></p>
+        <p class="enlace-registro">Si no tienes cuenta <a href="{% url 'registro' %}" class="enlace-registro">registrate aquí</a></p>
     </div>        
 {% endblock %}
 

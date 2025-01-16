@@ -4,13 +4,14 @@ from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+
 
 # Create your views here.
 class HomeView(TemplateView):
     template_name = 'home.html'
 
-class CrearOferta(CreateView):
-    model = Oferta
-    template_name = 'oferta_form.html'
-    form_class = CrearOfertaForm
-    success_url = reverse_lazy('home')
+class RegistroView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'registration/registro.html'
+    success_url = reverse_lazy('login')

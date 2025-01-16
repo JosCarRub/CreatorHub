@@ -1,5 +1,5 @@
 body {
-  background-color: #606ba4;
+  background-color: #5361ff;
   font-family: "Jersey 15", serif;
   font-weight: 400;
   font-style: normal;
@@ -7,29 +7,51 @@ body {
   padding: 0;
 }
 
+
+
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  list-style-type: none;
+  background-color: #aac2f1;
+}
+
+.nav-item {
+  margin-left: 300px;
+ 
+}
+
+
 h1 {
 text-align: center;
 font-size: 4rem; 
 }
 
+
 .inicio-sesion {
 margin: auto;
-width: 35%;
-background-color: #9fb1d8;
-padding: 130px 10px;
+width: 25%;
+background-color: #e1e3e7;
+padding: 5px 5px 5px 5px;
 border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 text-align: center;
 }
 
+.inicio-sesion h1 {
+  font-size: 2rem;
+ 
+}
+
 .form-botones {
-
-
+ 
 }
 
 .enlace-registro {
-margin-bottom: 0px;
-font-style: none;
+  font-style: none;
+  
 }
 
 button {
@@ -49,5 +71,5 @@ button {
 .raise:hover,
 .raise:focus {
 box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
-transform: translateY(-0.25em);
+transform: translateY(-0.50em);
 }
