@@ -1,8 +1,5 @@
 body {
-    background-color: #6371cf;
-    font-family: "Jersey 15", serif;
-    font-weight: 400;
-    font-style: normal;
+    background-color: #F0F8FF;
     margin: 0;
     padding: 0;
 }
@@ -36,7 +33,7 @@ button {
   &:focus { 
     border-color: #fff;
     
-    color: #e66885;
+    color: #ff2732;
   }
 }
 

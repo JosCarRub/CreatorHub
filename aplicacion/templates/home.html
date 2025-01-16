@@ -1,19 +1,50 @@
-{% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- FONTS -->
 
-{% block content %}
 
-
-<h1> PÁGINA DE INICIO </h1>
+    <link rel="stylesheet" href="{% static 'css/style-home.css' %}">
+</head>
+<body>
+    <header>
+        <nav id="nav-3">
+            <a class="link-3" href="#">Home</a>
+            <a class="link-3" href="#">About</a>
+            <a class="link-3" href="#">Contact</a>
+            <a class="link-3" href="#">Shop</a>
+          </nav>
+    </header>
+    <h1> PÁGINA DE INICIO </h1>
     <div class="inicio-sesion">
-        <h1>¿Estás registrado?</h1>
+        <h1>LOGIN</h1>
         <form action="{% url 'login'%}" method="post" class="form-botones">
             {% csrf_token %}
-            <button class="raise" type="submit">SI</button>
-            <button class="raise" type="submit">NO</button>
+            <button class="raise" type="submit">ACCEDER A LOGIN</button>
         </form>
+        <b><p>Implantar opcion para empresa o particular vaya a un tipo de registro u otro</p></b>
+        <b><p>¿ACCEDER COMO EMPRESA O COMO USUARIO?</p></b>
         <p class="enlace-registro">Si no tienes cuenta <a href="{% url 'registro' %}" class="enlace-registro">registrate aquí</a></p>
-    </div>        
-{% endblock %}
+    </div>
+    <br><br>
+    <p>Estaas logeado? si->url login | si no está logeado -> pagina de registro con 2 botones y cada cual te manda a una pagina de registro distinta </p>
+    <p>o directamente en el home? y con JS y según se seleccione el boton te mande a un tipo de registro u otro </p>
+    <p>(Según la opción aparece un boton u otro)</p>
+    <p>O LA OPCIÓN MAS ELEGANTE</p>
+    <p>pagina de registro genérica y según se seleccione en el campo rol apareza un tipo de registro u otro</p>
+    <footer>
+        <b><p>REVISAR CONCIENZUDAMENTE LOS MODELOS, ALGO FALLA, PREGUNTAR A JI POR LOS RELATED NAMES</p></b>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
 
     
