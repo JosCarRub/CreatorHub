@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <link rel="stylesheet" href="{% static 'css/style-login.css' %}">
 </head>
 <body>
-    <h2>Crear una cuenta</h2>
+    <h2>Crea tu cuenta</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form | crispy }}
+        {{ form }}
         <button type="submit">Registrarse</button>
     </form>
 </body>

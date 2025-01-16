@@ -51,6 +51,9 @@ class Oferta(models.Model):
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_expiracion = models.DateField()
 
+    def __str__(self):
+        return f'oferta publicada por {self.id_usuario} | Oferta publicada: {self.fecha_publicacion}'
+
     def clean(self):
         if self.fecha_expiracion <= self.fecha_publicacion:
             raise ValidationError("La fecha de expiración debe ser posterior a la fecha de publicación.")
@@ -112,4 +115,4 @@ class AplicacionOferta(models.Model):
         verbose_name_plural = 'Aplicaciones a las ofertas'
 
     def __str__(self):
-        return f'Estado de la oferta: {self.estado_aplicacion}'
+        return f'Estado de la oferta: {self.estado_aplicacion} | Fecha de expiración: {self.fecha_expiracion}'
