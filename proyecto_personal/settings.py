@@ -135,8 +135,8 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = reverse_lazy('/')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('/')
 
-AUTH_USER_MODEL = 'aplicacion.UsuarioGenerico'
+AUTH_USER_MODEL = 'aplicacion.Usuario'

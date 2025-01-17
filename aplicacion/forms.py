@@ -15,7 +15,12 @@ class CrearOfertaForm(forms.ModelForm):
                 'fecha_publicacion': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'})
             }
 
-class UsuarioCreationForm(UserCreationForm):
+class UsuarioParticularCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ('nombre', 'email', 'biografia', 'foto_perfil', 'rol')
+        fields = ('nombre_usuario', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
+    
+class UsuarioEmpresaCreationForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('nombre_usuario', 'email', 'biografia', 'foto_perfil', 'rol')

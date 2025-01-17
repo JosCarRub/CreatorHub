@@ -3,13 +3,13 @@ from django.forms import ValidationError
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class UsuarioGenerico(AbstractUser):
+class Usuario(AbstractUser):
     ROLES = [
         ('EMPRESA', 'Empresa'),
         ('PARTICULAR', 'Particular'),
     ]
 
-    nombre = models.CharField(max_length=150)
+    nombre_usuario = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     biografia = models.TextField(blank=True, null=True)
     foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
@@ -23,9 +23,10 @@ class UsuarioGenerico(AbstractUser):
    
     def __str__(self):
         if self.rol == 'EMPRESA':
-            return f'Empresa: {self.nombre} | Email: {self.email}'
+            return f'Empresa: {self.nombre_usuario} | Email: {self.email}'
         else:
-            return f'Nombre: {self.nombre} | Email: {self.email}'
+            return f'Nombre: {self.nombre_usuario} | Email: {self.email}'
+        #{self.get_rol_display()}: {self.nombre}
 
 class Oferta(models.Model):
     PLATAFORMA_OPCIONES = [
@@ -40,7 +41,7 @@ class Oferta(models.Model):
         ('exp', 'Expirada' ),
     ]
     
-    id_usuario = models.ForeignKey(UsuarioGenerico, on_delete=models.CASCADE, related_name="id_usuario")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="ofertas")
     descripcion = models.TextField()
     requisitos = models.TextField()
     
@@ -52,7 +53,7 @@ class Oferta(models.Model):
     fecha_expiracion = models.DateField()
 
     def __str__(self):
-        return f'oferta publicada por {self.id_usuario} | Oferta publicada: {self.fecha_publicacion}'
+        return f'oferta publicada por {self.usuario} | Oferta publicada: {self.fecha_publicacion}'
 
     def clean(self):
         if self.fecha_expiracion <= self.fecha_publicacion:
@@ -72,7 +73,7 @@ class TipoDeOferta(models.Model):
                 ('otra', 'Otro' ),
     ]
 
-    id_oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="id_oferta")
+    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="tiposDeOferta")
 
     tipo = models.CharField(max_length=100, choices=OFERTA_OPCIONES, verbose_name='Tipo de oferta')
 
@@ -100,15 +101,11 @@ class AplicacionOferta(models.Model):
         ('5', '5'),
     ]
 
-    id_usuario = models.ForeignKey(UsuarioGenerico, on_delete=models.CASCADE, related_name="id_usuario_aplicacion")
-    id_oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="id_oferta_aplicada")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="aplicacionesOferta")
+    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="aplicaciones")
     estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA, verbose_name='Estado de la aplicación a la oferta')
     fecha_expiracion = models.DateField()
     puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
-
-    #FUNCION CLEAN PARA VALIDAR QUE SI ESTÁ LA OFERTA HECHA SE PUEDE PUNTUAR
-   
-
 
     class Meta:
         verbose_name = 'Aplicación a la oferta'

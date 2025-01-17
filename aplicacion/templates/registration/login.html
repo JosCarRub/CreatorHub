@@ -19,11 +19,27 @@
 <body>
     <h1>INICIO SESION</h1>
     <div class="cuadro-login">
+        <!--FORMULARIO-->
+
         <form action="" method="post">
             {% csrf_token %}
-            {{ form|crispy }}
+            <div id="div_id_username" class="mb-3">
+                <label for="id_username" class="form-label requiredField">
+                    Nombre de Usuario
+                </label>
+                <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" class="textinput form-control" required id="id_username">
+            </div>
+            
+            <div id="div_id_password" class="mb-3">
+                <label for="id_password" class="form-label requiredField">
+                    Contraseña
+                </label>
+                <input type="password" name="password" autocomplete="current-password" class="passwordinput form-control" required id="id_password">
+            </div>
+            
             <button type="submit" class="boton-iniciar">Iniciar sesión</button>
-            <p>¿No tienes una cuenta? <a href="{% url 'registro' %}">Resgistrate aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="{% url 'registro_particular' %}">Resgistrate aquí si eres un usuario PARTICULAR</a></p>
+            <p> O<a href="{% url 'registro_empresa' %}"> AQUÍ si eres una EMPRESA</a></p>
         </form>
     </div>  
     

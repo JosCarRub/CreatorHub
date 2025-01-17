@@ -28,14 +28,14 @@ h2 {
     color: #0b0b0b;
     transition: 0.25s;
     padding: 5px 25px;
+  }
     
-    &:hover,
-    &:focus { 
+    button:hover,
+    button:focus { 
       border-color: #fff;
-      
       color: #e66885;
     }
-  }
+  
   
   .boton-registro:hover,
   .boton-registro:focus {

@@ -26,20 +26,13 @@
     <h1> PÁGINA DE INICIO </h1>
     <div class="inicio-sesion">
         <h1>LOGIN</h1>
-        <form action="{% url 'login'%}" method="post" class="form-botones">
-            {% csrf_token %}
-            <button class="raise" type="submit">ACCEDER A LOGIN</button>
-        </form>
-        <b><p>Implantar opcion para empresa o particular vaya a un tipo de registro u otro</p></b>
+        <a href="{% url 'login' %}" class="btn">LOGEATE AQUÍ</a>
         <b><p>¿ACCEDER COMO EMPRESA O COMO USUARIO?</p></b>
-        <p class="enlace-registro">Si no tienes cuenta <a href="{% url 'registro' %}" class="enlace-registro">registrate aquí</a></p>
+        <a href="{% url 'registro_particular' %}" class="btn"> REGISTRO PARTICULAR</a>
+        <a href="{% url 'registro_empresa' %}" class="btn"> REGISTRO EMPRESA</a>
     </div>
     <br><br>
-    <p>Estaas logeado? si->url login | si no está logeado -> pagina de registro con 2 botones y cada cual te manda a una pagina de registro distinta </p>
-    <p>o directamente en el home? y con JS y según se seleccione el boton te mande a un tipo de registro u otro </p>
-    <p>(Según la opción aparece un boton u otro)</p>
-    <p>O LA OPCIÓN MAS ELEGANTE</p>
-    <p>pagina de registro genérica y según se seleccione en el campo rol apareza un tipo de registro u otro</p>
+    <p>Estaas logeado? si->url login | si no está logeado -> pagina de registro con 2 botones y cada cual te manda a una pagina de registro distinta </p>   
     <footer>
         <b><p>REVISAR CONCIENZUDAMENTE LOS MODELOS, ALGO FALLA, PREGUNTAR A JI POR LOS RELATED NAMES</p></b>
     </footer>

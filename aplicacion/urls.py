@@ -5,5 +5,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
 
     #REGISTRO
-    path('registro/', RegistroView.as_view(), name='registro'),
+    path('registro_particular/', RegistroParticularView.as_view(), name='registro_particular'),
+    path('registro_empresa/', RegistroEmpresaView.as_view(), name='registro_empresa'),
+
 ]

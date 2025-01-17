@@ -26,8 +26,8 @@ nav {
   margin: 0 20px;
 }
 .link-3:hover {
-  border-top: 4px solid #ffffff;
-  border-bottom: 4px solid #ffffff;
+  border-top: 4px solid #ffcd69;
+  border-bottom: 4px solid #ffcd69;
   padding: 6px 0; 
 }
 
@@ -64,22 +64,24 @@ text-align: center;
   
 }
 
-button {
+.btn {
   margin: 30px;
   color: #0b0b0b;
   transition: 0.25s;
   padding: 5px 25px;
+
+}
   
-  &:hover,
-  &:focus { 
+.btn:hover,
+.btn:focus { 
     border-color: #fff;
     
     color: #e66885;
   }
-}
 
-.raise:hover,
-.raise:focus {
+
+.btn:hover,
+.btn:focus {
 box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
 transform: translateY(-0.50em);
 }

@@ -6,6 +6,6 @@ from .models import *
 
 
 
-admin.site.register(UsuarioGenerico)
+admin.site.register(Usuario)
 admin.site.register(Oferta)
 admin.site.register(TipoDeOferta)
