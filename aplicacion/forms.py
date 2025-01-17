@@ -18,9 +18,9 @@ class CrearOfertaForm(forms.ModelForm):
 class UsuarioParticularCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ('nombre_usuario', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
+        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
     
 class UsuarioEmpresaCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ('nombre_usuario', 'email', 'biografia', 'foto_perfil', 'rol')
+        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol')

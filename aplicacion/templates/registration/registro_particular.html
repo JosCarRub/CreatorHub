@@ -15,15 +15,15 @@
 <body>
     <h2>Crea tu cuenta</h2>
         <div class="cuadro-registro">
-            <form method="post">
+            <form method="post"  enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- FORMULARIO GENÉRICO DJANGO COPIADO DEL NAVEGADOR-->
                 
-                <div id="div_id_nombre_usuario" class="mb-3">
-                    <label for="id_nombre_usuario" class="form-label requiredField">
+                <div id="div_id_username" class="mb-3">
+                    <label for="id_username" class="form-label requiredField">
                         Nombre
                     </label>
-                    <input type="text" name="nombre_usuario" maxlength="150" class="textinput form-control" required id="id_nombre_usuario">
+                    <input type="text" name="username" maxlength="150" class="textinput form-control" required id="id_username">
                 </div>
                 
                 <div id="div_id_email" class="mb-3">

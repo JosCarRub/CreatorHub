@@ -9,7 +9,7 @@ class Usuario(AbstractUser):
         ('PARTICULAR', 'Particular'),
     ]
 
-    nombre_usuario = models.CharField(max_length=150)
+    
     email = models.EmailField(unique=True)
     biografia = models.TextField(blank=True, null=True)
     foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
@@ -23,9 +23,9 @@ class Usuario(AbstractUser):
    
     def __str__(self):
         if self.rol == 'EMPRESA':
-            return f'Empresa: {self.nombre_usuario} | Email: {self.email}'
+            return f'Empresa: {self.username} | Email: {self.email}'
         else:
-            return f'Nombre: {self.nombre_usuario} | Email: {self.email}'
+            return f'Nombre: {self.username} | Email: {self.email}'
         #{self.get_rol_display()}: {self.nombre}
 
 class Oferta(models.Model):

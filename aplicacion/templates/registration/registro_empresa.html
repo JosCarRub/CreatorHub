@@ -15,7 +15,7 @@
 <body>
     <h2>Crea tu cuenta</h2>
     <div class="cuadro-registro" >
-        <form method="post">
+        <form method="post"  enctype="multipart/form-data">
             {% csrf_token %}
             {{ form | crispy }}
             <button type="submit" class="boton-registro">Registrarse</button>
