@@ -12,6 +12,9 @@ urlpatterns = [
     path('principal/', PrincipalView.as_view(), name='principal'),
 
 
-    #PERFIL
-    path('perfil', UsuarioActualizarPerfil.as_view(), name='perfil'),
+    #PERFIL   
+    path('perfil/', UsuarioPerfil.as_view(), name='perfil'),
+    path('perfil_actualizar/', UsuarioActualizarPerfil.as_view(), name='perfil_actualizar'),
+    path('perfil_borrar/', UsuarioBorrarPerfil.as_view(), name='perfil_borrar'),
+
 ]

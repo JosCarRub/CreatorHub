@@ -10,14 +10,12 @@
 
 
 <div class="tarjeta_perfil-container">
-
         <span class="rol">{{usuario.rol}}</span>
-        <img class="foto_perfil" src="{{ usuario.foto_perfil.url }}" alt="user" />
+        <img class="foto_perfil" src="{{ usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
         <h3>{{usuario.username}}</h3>
         <div class="bio">
             <p>{{ usuario.biografia }}</p>
         </div>
-
 	<div class="skills">
 		<h6>REDES SOCIALES</h6>
 		<ul>
@@ -29,21 +27,11 @@
 	</div>
 </div>
 <div class="buttons">
-    <button class="actualizar">
-        ACTUALIZAR PERFIL
-    </button>
-    <button class="borrar">
+    <a href="{% url 'perfil_actualizar' %}" class="btn btn-primary">
+        ACTUALIZAR
+    </a>
+    <a href="{% url 'perfil_borrar' %}" class="btn btn-danger">
         BORRAR PERFIL
-    </button>
-</div>
-
-<div class="cuadro-actualizar" >
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button type="submit" class="boto-actualizar">Actualizar Perfil</button>
-    </form>
-</div>
-
-    
+    </a>
+</div>   
 {% endblock %}

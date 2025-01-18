@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView, DeleteView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
@@ -11,6 +11,8 @@ from django.contrib.auth.forms import *
 class HomeView(TemplateView):
     template_name = 'home.html'
 
+
+#REGISTRO
 class RegistroParticularView(CreateView):
     form_class = UsuarioParticularCreationForm
     template_name = 'registration/registro_particular.html'
@@ -21,18 +23,33 @@ class RegistroEmpresaView(CreateView):
     template_name = 'registration/registro_empresa.html'
     success_url = reverse_lazy('login')
 
+
+
+
 class PrincipalView(LoginRequiredMixin, TemplateView):
     model = Usuario
     template_name = 'principal.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['nombre'] = self.request.user.username
+        context['usuario'] = self.request.user
         return context
+
+
+#PERFIL    
+class UsuarioPerfil(LoginRequiredMixin, TemplateView):
+    model = Usuario
+    template_name = 'perfil/perfil.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+        return context
+    
 
 class UsuarioActualizarPerfil(LoginRequiredMixin, UpdateView):
     model = Usuario
-    template_name = 'perfil.html'
+    template_name = 'perfil/perfil_actualizar.html'
     fields = ['username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss']
 
 
@@ -45,7 +62,21 @@ class UsuarioActualizarPerfil(LoginRequiredMixin, UpdateView):
         return context
     
     def get_success_url(self):
-        return reverse_lazy('principal')
+        return reverse_lazy('perfil')
+
+class UsuarioBorrarPerfil(LoginRequiredMixin, DeleteView):
+    model = Usuario
+    template_name = 'perfil/perfil_borrar.html'
+    success_url = reverse_lazy('principal')
+
+    def get_object(self, queryset=None):         # Retorna el usuario actual (self.request.user)
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+        return context
+
 
 
 
