@@ -3,12 +3,12 @@
 {% load crispy_forms_tags %}
 {% block titulo %}PRINCIPAL{% endblock %}
 
-{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-perfil.css' %}"> {% endblock %}
+{% block estilo %} <link rel="stylesheet" href="{% static  'css/perfil/style-perfil.css' %}"> {% endblock %}
 
 {% block content %}
-<a href="{% url 'principal' %}">IR A PRINCIPAL</a>
+<a href="{% url 'principal' %}" class="btn btn-primary">IR A PRINCIPAL</a>
 
-<a href="{% url 'perfil' %}">IR A PERFIL</a>
+<a href="{% url 'perfil' %}" class="btn btn-success">IR A PERFIL</a>
 
 <div class="cuadro-actualizar" >
     <form method="POST" enctype="multipart/form-data">

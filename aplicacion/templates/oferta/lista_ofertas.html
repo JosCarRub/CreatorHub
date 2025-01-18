@@ -3,24 +3,47 @@
 {% load crispy_forms_tags %}
 {% block titulo %}CREAR{% endblock %}
 
-{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-perfil.css' %}"> {% endblock %}
+{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-listaofertas.css' %}"> {% endblock %}
 
 {% block content %}
-<a href="{% url 'principal' %}">IR A PRINCIPAL</a>
+<a href="{% url 'principal' %}" class="btn btn-primary">IR A PRINCIPAL</a>
 
-<a href="{% url 'perfil' %}">IR A PERFIL</a>
+<a href="{% url 'perfil' %}" class="btn btn-success">IR A PERFIL</a>
 
 <div class="listado_ofertas">
     <ul>
         {% for oferta in ofertas %}
-        <h1>{{ oferta.usuario.username }}</h1>
             <li>
-                <h3>{{ oferta.descripcion }}</h3>
-                <p>{{ oferta.requisitos }}</p>
-                <p><strong>Plataforma: </strong> {{ oferta.plataforma }}</p>
-                <p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p>
-                <p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p>
+                <div class="tarjeta-oferta">
+                    <img src="{{ oferta.usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" class="foto-empresa"/>
+                    <h3 class="nombre-empresa">{{ oferta.usuario.username }}</h3>
+                    <div class="personal-info">
+                        <h4>{{ oferta.descripcion }}</h4>
+                        <p><strong>Requisitos: </strong>{{ oferta.requisitos }}</p>
+                        <p><strong>Plataforma: </strong> {{ oferta.plataforma }}</p>
+                        <p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p>
+                        <p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p>
+                    </div>
+                </div>
             </li>
+
+            <div class="tarjeta_perfil-container">
+                <span class="rol">{{oferta.usuario.rol}}</span>
+                <img class="foto_perfil" src="{{ oferta.usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
+                <h3>{{ oferta.usuario.username }}</h3>
+                <div class="bio">
+                    <p>{{ oferta.descripcion }}</p>
+                </div>
+            <div class="skills">
+                <h6>COSAS</h6>
+                <ul>
+                    <li><p><strong>Requisitos: </strong>{{ oferta.requisitos }}</p></li>
+                    <li><p><strong>Plataforma: </strong> {{ oferta.plataformas }}</p></li>
+                    <li><p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p></li>
+                    <li><p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p></li>
+                </ul>
+            </div>
+        </div>
         {% empty %}
             <p>No hay ofertas disponibles.</p>
         {% endfor %}

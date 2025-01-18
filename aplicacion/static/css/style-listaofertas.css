@@ -1,0 +1,175 @@
+ul{
+    list-style: none;
+}
+
+
+.tarjeta-oferta {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  display: grid;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin: 20px auto;
+  height: 500px;
+  width: 900px;
+  transition: 0.9s;
+}
+
+.tarjeta-oferta:hover {
+    transform: scale(1.1);
+}
+
+
+
+.foto-empresa {
+    grid-column: 10;
+    grid-row: 2;
+    border: 1px solid #03BFCB;
+    border-radius: 50%;
+    max-width: 160px;
+    max-height: 150px;
+    }
+
+
+	
+
+
+.nombre-empresa {
+    grid-column: 2;
+    grid-row: 2;
+    color: #231E39;
+
+}
+  
+  
+  .personal-info {
+    grid-column: 2;
+    grid-row: 3;
+
+        p {
+        font-size: 10px;
+        p:first-of-type {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            }
+        &:nth-of-type(2){
+            font-size: 12px;
+            margin-bottom: 15px;
+            }
+            }
+    }
+
+
+/* MODO PERFIL */
+
+h3 {
+	margin: 0px 0;
+    color: white;
+}
+
+h6 {
+	margin: 5px 0;
+	
+}
+
+.tarjeta_perfil-container {
+	background-color: #231E39;
+	border-radius: 5px;
+	box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
+	color: #B3B8CD;
+	padding-top: 30px;
+	position: relative;
+	
+	text-align: center;
+    margin: auto;
+	transition: 0.9s;
+
+    height: 500px;
+    width: 900px;
+	
+}
+
+.tarjeta_perfil-container:hover {
+	padding: 30px;
+	transform: scale(1.3); 
+  	z-index: 3;
+}
+
+.tarjeta_perfil-container .rol {
+	color: #231E39;
+	background-color: #FEBB0B;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 7px;
+	position: absolute;
+	top: 30px;
+	left: 37px;
+    z-index: 2;
+}
+
+.tarjeta_perfil-container .foto_perfil {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+    position: absolute;
+	top: 50px;
+	left: 15px;
+    z-index: 1;
+    max-width: 140px;
+    max-height: 130px;
+}
+
+.foto_perfil {
+	--s: min(180vw,360px);
+	width: var(--s);
+	object-fit: cover;
+	object-position: top;
+	padding: calc(var(--s)/4) calc(var(--s)/8) 0;
+	box-sizing: border-box;	
+	transition: 0.6s;
+  }
+  .foto_perfil:hover {
+	padding: 0;
+	transform: scale(1.3); 
+  	z-index: 3;
+}
+
+.bio {
+	position: absolute;
+	left: 180px;
+	right: 20px;
+}
+
+.bio p {
+	margin-top: 10px;
+	font-size: 14px;
+	line-height: 21px;
+	text-align: justify;
+}
+
+
+.skills {
+	background-color: #1F1A36;
+	text-align: left;
+	padding: 15px;
+	margin-top: 120px;
+}
+
+.skills ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.skills ul li {
+	border: 1px solid #2D2747;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+
+
+
