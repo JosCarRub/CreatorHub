@@ -9,6 +9,7 @@
         <h1>hola {{usuario.username}}</h1><img class="foto_perfil" src="{{ usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
 
         <a href="{% url 'perfil' %}" class="btn btn-succes">IR A MI PERFIL</a>
+        <a href="{% url 'lista_ofertas' %}">VER OFERTAS</a>
 
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %} 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ValidationError
 from django.contrib.auth.models import AbstractUser
+from django.http import HttpResponseForbidden
 
 # Create your models here.
 class Usuario(AbstractUser):
@@ -64,9 +65,8 @@ class Oferta(models.Model):
     def __str__(self):
         return f'oferta publicada por {self.usuario}'
 
-    def clean(self):
-        if self.fecha_expiracion <= self.fecha_publicacion:
-            raise ValidationError("La fecha de expiración debe ser posterior a la fecha de publicación.")
+   #HAY QUE HACER VALIDACIONES
+    
 
     
     

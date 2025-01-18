@@ -19,5 +19,7 @@ urlpatterns = [
 
     #OFERTA
     path('crear_oferta/', CrearOfertaView.as_view(), name='crear_oferta'),
+    path('lista_ofertas/', ListadoOfertasView.as_view(), name='lista_ofertas'),
+
 
 ]

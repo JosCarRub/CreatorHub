@@ -85,11 +85,32 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
     template_name = 'oferta/crear_oferta.html'
     success_url = reverse_lazy('perfil')
 
-    def dispatch(self, request, *args, **kwargs):
-            if not request.user.is_authenticated or not request.user.es_empresa():
-                return HttpResponseForbidden("No tienes permiso para realizar esta acción.")
-            return super().dispatch(request, *args, **kwargs)
+      #VALIDACION
+    def form_valid(self, form):
+        oferta = form.save(commit=False)
+        oferta.usuario = self.request.user # Si no no se rellena el campo ID
+        oferta.save()
+        return super().form_valid(form)
+    
 
+
+class ListadoOfertasView(LoginRequiredMixin, ListView):
+    model = Oferta
+    template_name = 'oferta/lista_ofertas.html'
+    context_object_name = 'ofertas'
+
+    def get_queryset(self):
+        return Oferta.objects.all().order_by('-fecha_publicacion')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_ofertas'] = Oferta.objects.count()
+        return context
+
+#BORRAR Y ACTUALIZAR OFERTAS
+
+
+#APLICAR A OFERTAS
 
     
 

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block titulo %}CREAR{% endblock %}
+
+{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-perfil.css' %}"> {% endblock %}
+
+{% block content %}
+<a href="{% url 'principal' %}">IR A PRINCIPAL</a>
+
+<a href="{% url 'perfil' %}">IR A PERFIL</a>
+
+<div class="listado_ofertas">
+    <ul>
+        {% for oferta in ofertas %}
+        <h1>{{ oferta.usuario.username }}</h1>
+            <li>
+                <h3>{{ oferta.descripcion }}</h3>
+                <p>{{ oferta.requisitos }}</p>
+                <p><strong>Plataforma: </strong> {{ oferta.plataforma }}</p>
+                <p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p>
+                <p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p>
+            </li>
+        {% empty %}
+            <p>No hay ofertas disponibles.</p>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
