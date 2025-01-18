@@ -24,3 +24,8 @@ class UsuarioEmpresaCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol')
+
+class UsuarioActualizarPerfilForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')

@@ -4,6 +4,13 @@
 
 {% block content %}
 
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                {% endif %}
+
     <h1>hola {{nombre}}</h1>
+    <a href="{% url 'perfil' %}">IR A PERFIL</a>
     
 {% endblock %}

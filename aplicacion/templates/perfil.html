@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block titulo %}PRINCIPAL{% endblock %}
+
+{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-perfil.css' %}"> {% endblock %}
+
+{% block content %}
+
+                
+<h1>hola {{usuario}}</h1>
+
+<div class="cuadro-actualizar" >
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit" class="boto-actualizar">Actualizar Perfil</button>
+    </form>
+</div>
+
+    
+{% endblock %}

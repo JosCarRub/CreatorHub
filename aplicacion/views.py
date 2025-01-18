@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView ,TemplateView, CreateView, DetailView
+from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
@@ -29,9 +29,32 @@ class PrincipalView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['nombre'] = self.request.user.username
         return context
+
+class UsuarioActualizarPerfil(LoginRequiredMixin, UpdateView):
+    model = Usuario
+    template_name = 'perfil.html'
+    fields = ['username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss']
+
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+        return context
     
+    def get_success_url(self):
+        return reverse_lazy('principal')
+
+
 
     
+
+
+    
+
+
     """
     def get_context_data(self, **kwargs):
     

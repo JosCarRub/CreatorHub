@@ -22,10 +22,7 @@ class Usuario(AbstractUser):
 
    
     def __str__(self):
-        if self.rol == 'EMPRESA':
-            return f'Empresa: {self.username} | Email: {self.email}'
-        else:
-            return f'Nombre: {self.username} | Email: {self.email}'
+        return f"{self.username}"
         #{self.get_rol_display()}: {self.nombre}
 
 class Oferta(models.Model):
@@ -53,7 +50,7 @@ class Oferta(models.Model):
     fecha_expiracion = models.DateField()
 
     def __str__(self):
-        return f'oferta publicada por {self.usuario} | Oferta publicada: {self.fecha_publicacion}'
+        return f'oferta publicada por {self.usuario}'
 
     def clean(self):
         if self.fecha_expiracion <= self.fecha_publicacion:
