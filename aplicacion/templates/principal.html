@@ -6,9 +6,14 @@
 
     {% if user.is_authenticated %}
     
-        <h1>hola {{usuario.username}}</h1>
+        <h1>hola {{usuario.username}}</h1><img class="foto_perfil" src="{{ usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
 
-            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
+        <a href="{% url 'perfil' %}" class="btn btn-succes">IR A MI PERFIL</a>
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %} 
+            <button type="submit" class="">Cerrar Sesión</button>
+        </form>
 
     {% else %}
         <li><a href="{% url 'login' %}">Iniciar sesión</a></li>

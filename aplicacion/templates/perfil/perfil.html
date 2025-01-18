@@ -27,11 +27,20 @@
 	</div>
 </div>
 <div class="buttons">
+    {% if user.rol == 'EMPRESA' %}
+    <a href="{% url 'crear_oferta' %}" class="btn btn-success">
+        PUBLICAR OFERTA
+    </a>
+    {% endif %}
     <a href="{% url 'perfil_actualizar' %}" class="btn btn-primary">
         ACTUALIZAR
     </a>
     <a href="{% url 'perfil_borrar' %}" class="btn btn-danger">
         BORRAR PERFIL
     </a>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %} 
+        <button type="submit" class="">Cerrar Sesión</button>
+    </form>
 </div>   
 {% endblock %}

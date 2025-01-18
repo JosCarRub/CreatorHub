@@ -24,6 +24,12 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f"{self.username}"
     
+    def es_empresa(self):
+        if self.rol == 'EMPRESA':
+            return self.rol
+        else:
+            return 'No es empresa'
+    
     def clean(self):
         super().clean()
         if len(self.biografia) > 420:

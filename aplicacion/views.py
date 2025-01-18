@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView, DeleteView
 from .models import *
@@ -36,8 +37,8 @@ class PrincipalView(LoginRequiredMixin, TemplateView):
         return context
 
 
-#PERFIL    
-class UsuarioPerfil(LoginRequiredMixin, TemplateView):
+#CRUD PERFIL    
+class UsuarioPerfilView(LoginRequiredMixin, TemplateView):
     model = Usuario
     template_name = 'perfil/perfil.html'
     
@@ -47,7 +48,7 @@ class UsuarioPerfil(LoginRequiredMixin, TemplateView):
         return context
     
 
-class UsuarioActualizarPerfil(LoginRequiredMixin, UpdateView):
+class UsuarioActualizarPerfilView(LoginRequiredMixin, UpdateView):
     model = Usuario
     template_name = 'perfil/perfil_actualizar.html'
     fields = ['username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss']
@@ -64,7 +65,7 @@ class UsuarioActualizarPerfil(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('perfil')
 
-class UsuarioBorrarPerfil(LoginRequiredMixin, DeleteView):
+class UsuarioBorrarPerfilView(LoginRequiredMixin, DeleteView):
     model = Usuario
     template_name = 'perfil/perfil_borrar.html'
     success_url = reverse_lazy('principal')
@@ -76,8 +77,18 @@ class UsuarioBorrarPerfil(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         return context
+    
+#OFERTAS
+class CrearOfertaView(LoginRequiredMixin, CreateView):
+    model = Oferta
+    form_class = CrearOfertaForm
+    template_name = 'oferta/crear_oferta.html'
+    success_url = reverse_lazy('perfil')
 
-
+    def dispatch(self, request, *args, **kwargs):
+            if not request.user.is_authenticated or not request.user.es_empresa():
+                return HttpResponseForbidden("No tienes permiso para realizar esta acción.")
+            return super().dispatch(request, *args, **kwargs)
 
 
     
