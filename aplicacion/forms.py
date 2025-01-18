@@ -19,11 +19,17 @@ class UsuarioParticularCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
+        widgets = {
+            'biografia': forms.Textarea(attrs={'maxlength': 420}),  # Agregar el límite en el HTML
+        }
     
 class UsuarioEmpresaCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol')
+        widgets = {
+            'biografia': forms.Textarea(attrs={'maxlength': 420}),  # Agregar el límite en el HTML
+        }
 
 class UsuarioActualizarPerfilForm(forms.ModelForm):
     class Meta:

@@ -12,7 +12,7 @@ class Usuario(AbstractUser):
     
     email = models.EmailField(unique=True)
     biografia = models.TextField(blank=True, null=True)
-    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', default='fotos_perfil/default.png')
     rol = models.CharField(max_length=10, choices=ROLES, default='PARTICULAR')
     instagram = models.CharField(max_length=150, blank=True, null=True)
     tiktok = models.CharField(max_length=150, blank=True, null=True)
@@ -23,7 +23,13 @@ class Usuario(AbstractUser):
    
     def __str__(self):
         return f"{self.username}"
-        #{self.get_rol_display()}: {self.nombre}
+    
+    def clean(self):
+        super().clean()
+        if len(self.biografia) > 420:
+            raise ValidationError({'biografia': 'El texto no puede tener más de 420 caracteres.'})
+
+    
 
 class Oferta(models.Model):
     PLATAFORMA_OPCIONES = [

@@ -1,5 +1,112 @@
+/* TARJETA DE PERFIL DE USUARIO */
+
+h3 {
+	margin: 0px 0;
+    color: white;
+}
+
+h6 {
+	margin: 5px 0;
+	
+}
+
+.tarjeta_perfil-container {
+	background-color: #231E39;
+	border-radius: 5px;
+	box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
+	color: #B3B8CD;
+	padding-top: 30px;
+	position: relative;
+	width: 700px;
+	max-width: 100%;
+	text-align: center;
+    margin: auto;
+}
+
+.tarjeta_perfil-container .rol {
+	color: #231E39;
+	background-color: #FEBB0B;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 7px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+    z-index: 2;
+}
+
+.tarjeta_perfil-container .foto_perfil {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+    position: absolute;
+	top: 50px;
+	left: 15px;
+    z-index: 1;
+    max-width: 140px;
+    max-height: 130px;
+}
+
+.bio {
+	position: absolute;
+	left: 180px;
+	right: 20px;
+}
+
+.bio p {
+	font-size: 14px;
+	line-height: 21px;
+	text-align: justify;
+}
 
 
+.skills {
+	background-color: #1F1A36;
+	text-align: left;
+	padding: 15px;
+	margin-top: 105px;
+}
+
+.skills ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.skills ul li {
+	border: 1px solid #2D2747;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+
+
+
+.buttons {
+    text-align: center;
+    margin: auto;
+}
+
+button.actualizar {
+	background-color: #03BFCB;
+	border: 1px solid #03BFCB;
+	border-radius: 3px;
+	color: #231E39;
+	font-family: Montserrat, sans-serif;
+	font-weight: 500;
+	padding: 10px 25px;
+}
+
+button.borrar {
+	background-color: #e66885;
+	color: #02899C;
+}
+
+
+/* FORMULARIO */
 .cuadro-actualizar {
     margin: auto;
     width: 30%;

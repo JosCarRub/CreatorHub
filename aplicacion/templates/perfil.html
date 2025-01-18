@@ -6,9 +6,36 @@
 {% block estilo %} <link rel="stylesheet" href="{% static  'css/style-perfil.css' %}"> {% endblock %}
 
 {% block content %}
+<a href="{% url 'principal' %}">IR A PRINCIPAL</a>
 
-                
-<h1>hola {{usuario}}</h1>
+
+<div class="tarjeta_perfil-container">
+
+        <span class="rol">{{usuario.rol}}</span>
+        <img class="foto_perfil" src="{{ usuario.foto_perfil.url }}" alt="user" />
+        <h3>{{usuario.username}}</h3>
+        <div class="bio">
+            <p>{{ usuario.biografia }}</p>
+        </div>
+
+	<div class="skills">
+		<h6>REDES SOCIALES</h6>
+		<ul>
+			<li>{{usuario.instagram}}</li>
+			<li>{{usuario.tiktok}}</li>
+			<li>{{usuario.otras_rrss}}</li>
+            <li>{{usuario.email}}</li>
+		</ul>
+	</div>
+</div>
+<div class="buttons">
+    <button class="actualizar">
+        ACTUALIZAR PERFIL
+    </button>
+    <button class="borrar">
+        BORRAR PERFIL
+    </button>
+</div>
 
 <div class="cuadro-actualizar" >
     <form method="POST" enctype="multipart/form-data">
