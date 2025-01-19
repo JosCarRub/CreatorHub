@@ -13,22 +13,9 @@
 <div class="listado_ofertas">
     <ul>
         {% for oferta in ofertas %}
-            <li>
-                <div class="tarjeta-oferta">
-                    <img src="{{ oferta.usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" class="foto-empresa"/>
-                    <h3 class="nombre-empresa">{{ oferta.usuario.username }}</h3>
-                    <div class="personal-info">
-                        <h4>{{ oferta.descripcion }}</h4>
-                        <p><strong>Requisitos: </strong>{{ oferta.requisitos }}</p>
-                        <p><strong>Plataforma: </strong> {{ oferta.plataforma }}</p>
-                        <p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p>
-                        <p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p>
-                    </div>
-                </div>
-            </li>
-
             <div class="tarjeta_perfil-container">
                 <span class="rol">{{oferta.usuario.rol}}</span>
+                <span class="estado">{{ oferta.estado }}</span>
                 <img class="foto_perfil" src="{{ oferta.usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
                 <h3>{{ oferta.usuario.username }}</h3>
                 <div class="bio">
@@ -39,6 +26,7 @@
                 <ul>
                     <li><p><strong>Requisitos: </strong>{{ oferta.requisitos }}</p></li>
                     <li><p><strong>Plataforma: </strong> {{ oferta.plataformas }}</p></li>
+                    <li><p><strong>Otra Plataforma: </strong> {{ oferta.otra_plataforma }}</p></li>
                     <li><p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p></li>
                     <li><p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p></li>
                 </ul>

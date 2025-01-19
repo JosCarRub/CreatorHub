@@ -41,14 +41,14 @@ class Usuario(AbstractUser):
 class Oferta(models.Model):
     PLATAFORMA_OPCIONES = [
                 ('tiktok', 'TikTok' ),
-                ('ig', 'Instagram' ),
-                ('fb', 'Facebook' ),
+                ('instagram', 'Instagram' ),
+                ('facebook', 'Facebook' ),
                 ('otra', 'Otra' ),
     ]
 
     ESTADO_OPCIONES = [
-        ('vig', 'Vigente' ),
-        ('exp', 'Expirada' ),
+        ('vigente', 'Vigente' ),
+        ('expirada', 'Expirada' ),
     ]
     
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="ofertas")
@@ -58,7 +58,7 @@ class Oferta(models.Model):
 
     plataformas = models.CharField(max_length=50, choices = PLATAFORMA_OPCIONES)
     otra_plataforma = models.CharField(max_length=100, blank=True,  null=True ) #Con JS esconder este campo si no se escoge otra
-    
+    estado = models.CharField(max_length=50, choices=ESTADO_OPCIONES, default='vigente')
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_expiracion = models.DateField()
 

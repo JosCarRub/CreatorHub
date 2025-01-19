@@ -1,0 +1,30 @@
+.foto_perfil {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+    position: absolute;
+	top: 30px;
+	right: 15px;
+    z-index: 1;
+    max-width: 140px;
+    max-height: 130px;
+}
+
+.saludo {
+    color: white;
+    position: absolute;
+	top: 40px;
+	right: 170px;
+}
+
+.botones-sesion {
+    position: absolute;
+	top: 140px;
+	right: 15px;
+
+}
+
+.boton-lista-ofertas {
+    margin-top: 200px ;
+    text-align: center;
+}
