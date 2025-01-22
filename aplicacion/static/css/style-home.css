@@ -1,5 +1,5 @@
 html, body {
-  background-color: #F0F8FF;
+  background-color: #002233;
   margin: 0;
   padding: 0;
 
@@ -33,7 +33,8 @@ nav {
 
 h1 {
 text-align: center;
-font-size: 4rem; 
+font-size: 4rem;
+color: #e1e3e7;
 }
 
 
@@ -52,7 +53,7 @@ text-align: center;
 
 .inicio-sesion h1 {
   font-size: 2rem;
- 
+  color: #002233;
 }
 
 .form-botones {

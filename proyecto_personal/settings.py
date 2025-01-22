@@ -13,9 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from django.urls import reverse_lazy
+import yaml
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+with open(BASE_DIR / 'config.yaml') as f:
+    config = yaml.safe_load(f)
 
 
 # Quick-start development settings - unsuitable for production
@@ -85,12 +88,33 @@ WSGI_APPLICATION = 'proyecto_personal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
+#   DATABASES = {
+#       'default': {
+#           'ENGINE': 'django.db.backends.sqlite3',
+#               'NAME': BASE_DIR / 'db.sqlite3',
+#       }
+#   }
+
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',  # Motor para mysql-connector-python
+        'NAME': config['database']['name'],  # Nombre de la base de datos
+        'USER': config['database']['user'],                # Usuario de la base de datos
+        'PASSWORD': config['database']['password'],         # Contraseña del usuario
+        'HOST': config['database']['host'],                # Dirección del servidor
+        'PORT': config['database']['port'],
+        'OPTIONS': {
+            'autocommit': True,
+            'charset': 'utf8mb4',
+        },                                        
     }
 }
+   
+        
 
 
 # Password validation

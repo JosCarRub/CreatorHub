@@ -32,7 +32,7 @@ class UsuarioActualizarPerfilForm(forms.ModelForm):
 class CrearOfertaForm(forms.ModelForm):
     class Meta:
         model = Oferta
-        fields = ['descripcion', 'descripcion', 'requisitos', 'plataformas', 'otra_plataforma', 'fecha_expiracion' ]
+        fields = ('descripcion', 'descripcion', 'requisitos', 'plataformas', 'otra_plataforma', 'fecha_expiracion' ) #[] antes
         widgets = {
                 'fecha_expiracion': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'}),
             }
