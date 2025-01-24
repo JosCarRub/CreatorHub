@@ -121,16 +121,19 @@ class ListadoOfertasView(LoginRequiredMixin, ListView):
     """
     def get_context_data(self, **kwargs):
     
-    Es un METODO que puedes sobrescribir en las vistas basadas en clases para PERSONALIZAR 
-    los DATOS ENVIADOS al CONTEXTO. self es la instancia de la clase (PrincipalView).
+    Es un METODO con el que puedo sobrescribir las vistas basadas en clases para PERSONALIZAR 
+    los DATOS ENVIADOS al CONTEXTO. 
+    self es la instancia de la clase (PrincipalView).
+
     **kwargs permite capturar cualquier argumento adicional que se pase al contexto(parámetros desde la URL).
 
     context = super().get_context_data(**kwargs)
 
 
-    Llama al método get_context_data de la clase base de la vista (la que estás heredando).
+    Llama al método get_context_data de la clase base de la vista (la que estoy heredando).
     Este método devuelve un diccionario (context) con los datos que la clase base ya estaba 
     agregando al contexto.
+    
     **kwargs se pasa al método base para asegurarte de que todos los datos esperados se procesen 
     correctamente.
 

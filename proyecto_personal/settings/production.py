@@ -1,6 +1,12 @@
 from .base import *
+import yaml
+
 DEBUG = False
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['josecarloscr.ieshm.org']
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+with open(BASE_DIR / 'config.yaml') as f:
+    config = yaml.safe_load(f)
 
 
 DATABASES = {
