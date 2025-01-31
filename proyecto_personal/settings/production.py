@@ -4,7 +4,7 @@ import yaml
 DEBUG = False
 ALLOWED_HOSTS = ['josecarloscr.ieshm.org']
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 with open(BASE_DIR / 'config.yaml') as f:
     config = yaml.safe_load(f)
 
