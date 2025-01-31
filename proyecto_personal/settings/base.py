@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from django.urls import reverse_lazy
 import yaml
+from django.contrib.messages import constants as messages
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -50,8 +53,8 @@ INSTALLED_APPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-MEDIA_URL = '/media/'  
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
+MEDIA_URL = 'proyecto_personal/media/'  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'proyecto_personal/media')  
 
 
 MIDDLEWARE = [
@@ -164,3 +167,12 @@ LOGIN_REDIRECT_URL = ('principal')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 AUTH_USER_MODEL = 'aplicacion.Usuario'
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-dark',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

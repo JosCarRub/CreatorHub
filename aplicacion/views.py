@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import *
+from django.contrib import messages
 
 
 # Create your views here.
@@ -18,6 +19,10 @@ class RegistroParticularView(CreateView):
     form_class = UsuarioParticularCreationForm
     template_name = 'registration/registro_particular.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        messages.success(self.request,'Usuario creado correctamente')
+        return super().form_valid(form)
 
 class RegistroEmpresaView(CreateView):
     form_class = UsuarioEmpresaCreationForm

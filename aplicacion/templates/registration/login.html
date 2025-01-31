@@ -1,3 +1,4 @@
+
 {% load crispy_forms_tags %}
 {% load static %}
 <!DOCTYPE html>
@@ -19,8 +20,15 @@
 <body>
     <h1>INICIO SESION</h1>
     <div class="cuadro-login">
-        <!--FORMULARIO-->
 
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+        {% endif %}
+        <!--FORMULARIO-->
         <form action="" method="post">
             {% csrf_token %}
             {{ form | crispy }}
