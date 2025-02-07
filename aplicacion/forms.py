@@ -23,10 +23,10 @@ class UsuarioEmpresaCreationForm(UserCreationForm):
         }
 
 #PERFIL USUARIO
-class UsuarioActualizarPerfilForm(forms.ModelForm):
-    class Meta:
-        model = get_user_model()
-        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
+# class UsuarioActualizarPerfilForm(forms.ModelForm):
+#     class Meta:
+#         model = get_user_model()
+#         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
 
 #CRUD OFERTAS
 class CrearOfertaForm(forms.ModelForm):

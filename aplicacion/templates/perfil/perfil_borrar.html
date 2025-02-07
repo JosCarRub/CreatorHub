@@ -1,21 +1,72 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'principales/base.html' %}
+
 {% load crispy_forms_tags %}
-{% block titulo %}PRINCIPAL{% endblock %}
 
-{% block estilo %} <link rel="stylesheet" href="{% static  'css/perfil/style-perfil.css' %}"> {% endblock %}
+{% block basePrincipal %}
 
-{% block content %}
-<a href="{% url 'principal' %}" class="btn btn-primary">IR A PRINCIPAL</a>
 
-<a href="{% url 'perfil' %}" class="btn btn-success">IR A PERFIL</a>
 
-<div class="cuadro-actualizar" >
-    <form method="POST" enctype="multipart/form-data">
-        <h1>¿Estás seguro de que deseas eliminar tu perfil {{usuario.username}}?</h1>
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button type="submit" class="boto-actualizar">Eliminar Perfil</button>
-    </form>
+<div class="px-4 py-5 px-md-5 text-center text-lg-start bg-light">
+    <div class="container">
+        <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h1 class="my-5 display-4 fw-bold">
+                    ¿Estás seguro de que deseas <span class="text-danger">ELIMINAR</span> tu perfil, {{ usuario.username }}?
+                </h1>
+                <p class="lead text-muted">
+                    Esta acción no se puede deshacer. Tu cuenta y todos tus datos serán eliminados de forma permanente.
+                </p>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-danger shadow">
+                    <div class="card-body py-5 px-md-5">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form | crispy }}
+                            </div>
+                            
+                            
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                Eliminar Perfil
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">
+                    ¿Estás seguro de que deseas eliminar tu perfil <strong>{{ usuario.username }}</strong>?<br>
+                    <span class="text-danger fw-bold">Esta acción es irreversible.</span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post">
+                    {% csrf_token %}              
+                    {{ form | crispy }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar Perfil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 {% endblock %}

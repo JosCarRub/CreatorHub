@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.http import HttpResponseForbidden
 
 # Create your models here.
+#TABLA NUEVA USUARIO REDES
+
 class Usuario(AbstractUser):
     ROLES = [
         ('EMPRESA', 'Empresa'),
@@ -36,7 +38,7 @@ class Usuario(AbstractUser):
         if len(self.biografia) > 420:
             raise ValidationError({'biografia': 'El texto no puede tener más de 420 caracteres.'})
 
-    
+ #Crear tabla nueva Plataformas   
 
 class Oferta(models.Model):
     PLATAFORMA_OPCIONES = [
@@ -51,7 +53,7 @@ class Oferta(models.Model):
         ('expirada', 'Expirada' ),
     ]
     
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="ofertas")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="ofertas") #get_usuario_ofertas
     descripcion = models.TextField()
     requisitos = models.TextField()
     
@@ -67,6 +69,9 @@ class Oferta(models.Model):
 
    #HAY QUE HACER VALIDACIONES
     
+
+    #TRANSACCIONES HACER, CUANDO ENTRO COMO EMPRESA DEBE SALIR EN PRIN TODAS LAS OFERTAS DE ESA EMPRESA Y METERLE UN BOTN PARA PODER CREAR UNO NUEVO
+    # COMO PARTICUÑLAR¡ TODAS LAS OFERTAS CON UN FILTRO
 
     
     

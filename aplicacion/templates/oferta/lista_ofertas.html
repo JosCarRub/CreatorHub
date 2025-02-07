@@ -1,41 +1,53 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'principales/base.html' %}
+
 {% load crispy_forms_tags %}
-{% block titulo %}CREAR{% endblock %}
 
-{% block estilo %} <link rel="stylesheet" href="{% static  'css/style-listaofertas.css' %}"> {% endblock %}
+{% block basePrincipal %}
 
-{% block content %}
-<a href="{% url 'principal' %}" class="btn btn-primary">IR A PRINCIPAL</a>
-
-<a href="{% url 'perfil' %}" class="btn btn-success">IR A PERFIL</a>
-
-<div class="listado_ofertas">
-    <ul>
+<div class="container mt-4">
+    <div class="row">
         {% for oferta in ofertas %}
-            <div class="tarjeta_perfil-container">
-                <span class="rol">{{oferta.usuario.rol}}</span>
-                <span class="estado">{{ oferta.estado }}</span>
-                <img class="foto_perfil" src="{{ oferta.usuario.foto_perfil.url }}" alt="foto de perfil de {{usuario.username}}" />
-                <h3>{{ oferta.usuario.username }}</h3>
-                <div class="bio">
-                    <p>{{ oferta.descripcion }}</p>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg p-3 bg-light rounded">
+
+                    {% if oferta.estado == 'expirada' %}
+                    <span class="badge bg-danger">Oferta {{ oferta.estado }}</span>
+                    {% else %}
+                    <span class="badge bg-success">Oferta {{ oferta.estado }}</span>
+                    {% endif %}
+                    
+
+                    <img src="{{ oferta.usuario.foto_perfil.url }}" class="rounded-circle mx-auto d-block" alt="foto de perfil de {{ usuario.username }}" width="80" height="80">
+
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h6 class="text-muted">{{ oferta.usuario.rol }}</h6>
+                            <h5 class="card-title">{{ oferta.usuario.username }}</h5>
+                            <p class="mt-2">{{ oferta.descripcion }}</p>
+                            <hr>
+                            <ul class="list-unstyled">
+                                <li><strong>Requisitos: </strong>{{ oferta.requisitos }}</li>
+                                <li><strong>Plataforma: </strong>{{ oferta.plataformas }}</li>
+                                <li><strong>Otra Plataforma: </strong>{{ oferta.otra_plataforma }}</li>
+                                <li><strong>Publicado en: </strong>{{ oferta.fecha_publicacion }}</li>
+                                <li><strong>Fecha expiración: </strong>{{ oferta.fecha_expiracion }}</li>
+                            </ul>
+                            
+                            <ul class="list-unstyled text-center">
+                                <li>
+                                    <a href="#" class="btn btn-danger">Borrar</a>
+                                    <a href="{% url 'actualizar_oferta' oferta.pk %}" class="btn btn-primary">Actualizar</a>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
                 </div>
-            <div class="skills">
-                <h6>COSAS</h6>
-                <ul>
-                    <li><p><strong>Requisitos: </strong>{{ oferta.requisitos }}</p></li>
-                    <li><p><strong>Plataforma: </strong> {{ oferta.plataformas }}</p></li>
-                    <li><p><strong>Otra Plataforma: </strong> {{ oferta.otra_plataforma }}</p></li>
-                    <li><p><strong>Publicado en: </strong> {{ oferta.fecha_publicacion }}</p></li>
-                    <li><p><strong>Fecha expiracion: </strong> {{ oferta.fecha_expiracion }}</p></li>
-                </ul>
             </div>
-        </div>
         {% empty %}
-            <p>No hay ofertas disponibles.</p>
+            <p class="text-center">No hay ofertas disponibles.</p>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 
 {% endblock %}

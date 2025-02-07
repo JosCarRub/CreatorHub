@@ -1,0 +1,70 @@
+{%  extends 'basesite.html'%}
+{% block base %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container">
+        <div class="navbar-nav mx-auto gap-4">
+            <a class="nav-link" href="{% url 'principal' %}">Principal</a>
+            <a class="nav-link" href="{% url 'perfil' %}">Mi perfil</a>
+            <a class="nav-link" href="{% url 'lista_ofertas' %}">Ofertas</a>
+            <a class="nav-link" href="#">Top Usuarios</a>
+            
+        </div>
+        
+        
+                <!-- Dropdown de perfil -->
+                <div class="dropdown ms-auto">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ usuario.foto_perfil.url }}" 
+                             class="rounded-circle" 
+                             width="40" 
+                             height="40" 
+                             alt="foto de perfil de {{usuario.username}}">
+                    </a>
+         
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- Cabecera del dropdown -->
+                        <div class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ usuario.foto_perfil.url }}" 
+                                     class="rounded-circle" 
+                                     width="40" 
+                                     height="40" 
+                                     alt="avatar">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">{{usuario.username}}</h6>
+                                    <small class="text-muted">{{usuario.email}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dropdown-divider"></div>
+                        
+                        <!-- Opciones del menú -->
+                        <a class="dropdown-item" href="{% url 'perfil' %}">
+                            <i class="fe fe-user me-2"></i>Perfil
+                        </a>
+                        
+                        <div class="dropdown-divider"></div>
+                        
+                        <form action="{% url 'logout' %}" method="post" class="dropdown-item">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link p-0">
+                                <i class="fe fe-power me-2"></i>
+                                Cerrar Sesión
+                            </button>
+                        </form>
+                        
+                        
+
+                    </div>
+                </div>
+            </div>
+         </nav>
+         {% block basePrincipal %}
+         {% endblock %}
+         
+ {% endblock %}
+
+
+
+

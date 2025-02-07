@@ -1,5 +1,5 @@
 from django.http import HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView, DeleteView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +11,7 @@ from django.contrib import messages
 
 # Create your views here.
 class HomeView(TemplateView):
-    template_name = 'home.html'
+    template_name = 'principales/home.html'
 
 
 #REGISTRO
@@ -34,7 +34,7 @@ class RegistroEmpresaView(CreateView):
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
     model = Usuario
-    template_name = 'principal.html'
+    template_name = 'principales/principal.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,6 +50,8 @@ class UsuarioPerfilView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
+        # context['ofertas'] = usuario.ofertas.all().order_by('-fecha_publicacion')
+
         return context
     
 
@@ -97,6 +99,7 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
         oferta.save()
         return super().form_valid(form)
     
+    
 
 
 class ListadoOfertasView(LoginRequiredMixin, ListView):
@@ -113,6 +116,15 @@ class ListadoOfertasView(LoginRequiredMixin, ListView):
         return context
 
 #BORRAR Y ACTUALIZAR OFERTAS
+
+class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
+    model = Oferta
+    template_name = 'oferta/actualizar_oferta.html'
+    form_class = CrearOfertaForm
+    fields = '__all__'
+    success_url = reverse_lazy('lista_ofertas')
+
+  
 
 
 #APLICAR A OFERTAS
