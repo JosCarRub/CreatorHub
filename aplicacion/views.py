@@ -31,15 +31,26 @@ class RegistroEmpresaView(CreateView):
 
 
 
-
-class PrincipalView(LoginRequiredMixin, TemplateView):
-    model = Usuario
+#PRINCIPAL
+class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
+    model = Oferta
     template_name = 'principales/principal.html'
-    
-    def get_context_data(self, **kwargs):
+    context_object_name = 'ofertas'
+
+    def get_queryset(self):
+        return Oferta.objects.all().order_by('-fecha_publicacion')
+
+    def get_context_data_ofertas(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user
+        context['total_ofertas'] = Oferta.objects.count()
         return context
+
+    def get_context_data_user(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+    
+    
 
 
 #CRUD PERFIL    

@@ -9,7 +9,8 @@ urlpatterns = [
     path('registro_empresa/', RegistroEmpresaView.as_view(), name='registro_empresa'),
 
     #PÁGINA PRINCIPAL
-    path('principal/', PrincipalView.as_view(), name='principal'),
+    path('principal/', PrincipalListadoOfertasView.as_view(), name='principal'),
+
 
 
     #PERFIL   

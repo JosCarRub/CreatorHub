@@ -11,7 +11,7 @@
             <a class="nav-link" href="{% url 'crear_oferta' %}">Publicar oferta</a>
             {% endif %}
             <a class="nav-link" href="{% url 'perfil_actualizar' %}">Actualizar perfil</a>
-            <a class="nav-link" href="{% url 'perfil_borrar' %}">Borrar perfil</a>
+            <a class="nav-link" href="{% url 'perfil_borrar' %}">Borrar perfil</a> 
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %} 
                 <button type="submit" class="btn btn-danger">Cerrar Sesión</button>

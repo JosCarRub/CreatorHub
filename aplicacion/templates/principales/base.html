@@ -14,25 +14,25 @@
                 <!-- Dropdown de perfil -->
                 <div class="dropdown ms-auto">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ usuario.foto_perfil.url }}" 
+                        <img src="{{ user.foto_perfil.url }}" 
                              class="rounded-circle" 
                              width="40" 
                              height="40" 
-                             alt="foto de perfil de {{usuario.username}}">
+                             alt="foto de perfil de {{user.username}}">
                     </a>
          
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- Cabecera del dropdown -->
                         <div class="dropdown-item">
                             <div class="d-flex align-items-center">
-                                <img src="{{ usuario.foto_perfil.url }}" 
+                                <img src="{{ user.foto_perfil.url }}" 
                                      class="rounded-circle" 
                                      width="40" 
                                      height="40" 
                                      alt="avatar">
                                 <div class="ms-3">
-                                    <h6 class="mb-0">{{usuario.username}}</h6>
-                                    <small class="text-muted">{{usuario.email}}</small>
+                                    <h6 class="mb-0">{{user.username}}</h6>
+                                    <small class="text-muted">{{user.email}}</small>
                                 </div>
                             </div>
                         </div>
