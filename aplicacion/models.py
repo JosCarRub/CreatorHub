@@ -3,9 +3,7 @@ from django.forms import ValidationError
 from django.contrib.auth.models import AbstractUser
 from django.http import HttpResponseForbidden
 
-# Create your models here.
-#TABLA NUEVA USUARIO REDES
-
+#USUARIOS
 class Usuario(AbstractUser):
     ROLES = [
         ('EMPRESA', 'Empresa'),
@@ -17,9 +15,6 @@ class Usuario(AbstractUser):
     biografia = models.TextField(blank=True, null=True)
     foto_perfil = models.ImageField(upload_to='fotos_perfil/', default='fotos_perfil/default.png')
     rol = models.CharField(max_length=10, choices=ROLES, default='PARTICULAR')
-    instagram = models.CharField(max_length=150, blank=True, null=True)
-    tiktok = models.CharField(max_length=150, blank=True, null=True)
-    otras_rrss = models.CharField(max_length=100, blank=True, null=True)
     num_trabajos = models.PositiveIntegerField(default=0, blank=True, null=True)
     puntuacion_promedio = models.FloatField(default=0.0, blank=True, null=True)
 
@@ -38,44 +33,52 @@ class Usuario(AbstractUser):
         if len(self.biografia) > 420:
             raise ValidationError({'biografia': 'El texto no puede tener más de 420 caracteres.'})
 
- #Crear tabla nueva Plataformas   
+class RedesSocialesUsuario(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_redes")
+    instagram = models.CharField(max_length=100, blank=True,  null=True)
+    tiktok = models.CharField(max_length=100, blank=True,  null=True)
+    youtube = models.CharField(max_length=100, blank=True,  null=True)
+        
+#OFERTAS
+
+class RedesSocialesOferta(models.Model):
+    instagram = models.CharField(max_length=100, blank=True, null=True)
+    tiktok = models.CharField(max_length=100, blank=True, null=True)
+    youtube = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        redes = []
+        if self.instagram:
+            redes.append('Instagram')
+        if self.tiktok:
+            redes.append('TikTok')
+        if self.youtube:
+            redes.append('YouTube')
+        return f'Redes sociales asociadas a oferta: {", ".join(redes)}'
+        
 
 class Oferta(models.Model):
-    PLATAFORMA_OPCIONES = [
-                ('tiktok', 'TikTok' ),
-                ('instagram', 'Instagram' ),
-                ('facebook', 'Facebook' ),
-                ('otra', 'Otra' ),
-    ]
 
     ESTADO_OPCIONES = [
         ('vigente', 'Vigente' ),
         ('expirada', 'Expirada' ),
     ]
     
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="ofertas") #get_usuario_ofertas
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_ofertas") 
+    redes_sociales = models.ManyToManyField(RedesSocialesOferta, related_name='get_oferta_redes')
     descripcion = models.TextField()
     requisitos = models.TextField()
-    
-
-    plataformas = models.CharField(max_length=50, choices = PLATAFORMA_OPCIONES)
-    otra_plataforma = models.CharField(max_length=100, blank=True,  null=True ) #Con JS esconder este campo si no se escoge otra
     estado = models.CharField(max_length=50, choices=ESTADO_OPCIONES, default='vigente')
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_expiracion = models.DateField()
 
     def __str__(self):
         return f'oferta publicada por {self.usuario}'
-
-   #HAY QUE HACER VALIDACIONES
     
 
-    #HACER TRANSACCIONES, CUANDO ENTRO COMO EMPRESA DEBE SALIR EN PRINCIPAL TODAS LAS OFERTAS DE ESA EMPRESA Y METERLE UN BOTON PARA PODER CREAR UNO NUEVO
-    # COMO PARTICULAR TODAS LAS OFERTAS CON UN FILTRO
 
     
     
-
 class TipoDeOferta(models.Model):
 
     OFERTA_OPCIONES = [
@@ -87,9 +90,11 @@ class TipoDeOferta(models.Model):
                 ('otra', 'Otro' ),
     ]
 
-    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="tiposDeOferta")
+    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="get_oferta_tipos")
 
     tipo = models.CharField(max_length=100, choices=OFERTA_OPCIONES, verbose_name='Tipo de oferta')
+
+
 
     class Meta:
         verbose_name = 'Tipo de oferta'
@@ -115,8 +120,8 @@ class AplicacionOferta(models.Model):
         ('5', '5'),
     ]
 
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="aplicacionesOferta")
-    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="aplicaciones")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_aplicaciones")
+    oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="get_oferta_aplicaciones")
     estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA, verbose_name='Estado de la aplicación a la oferta')
     fecha_expiracion = models.DateField()
     puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
@@ -127,3 +132,9 @@ class AplicacionOferta(models.Model):
 
     def __str__(self):
         return f'Estado de la oferta: {self.estado_aplicacion} | Fecha de expiración: {self.fecha_expiracion}'
+    
+
+#HAY QUE HACER VALIDACIONES
+    
+#HACER TRANSACCIONES, CUANDO ENTRO COMO EMPRESA DEBE SALIR EN PRINCIPAL TODAS LAS OFERTAS DE ESA EMPRESA Y METERLE UN BOTON PARA PODER CREAR UNO NUEVO
+# COMO PARTICULAR TODAS LAS OFERTAS CON UN FILTRO

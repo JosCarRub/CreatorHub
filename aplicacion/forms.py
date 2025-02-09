@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 class UsuarioParticularCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
+        fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol')
         widgets = {
             'biografia': forms.Textarea(attrs={'maxlength': 420}),  # Agregar el límite en el HTML
         }
@@ -32,8 +32,15 @@ class UsuarioEmpresaCreationForm(UserCreationForm):
 class CrearOfertaForm(forms.ModelForm):
     class Meta:
         model = Oferta
-        fields = ('descripcion', 'descripcion', 'requisitos', 'plataformas', 'otra_plataforma', 'fecha_expiracion' ) #[] antes
+        fields = ('descripcion', 'descripcion', 'requisitos') 
         widgets = {
                 'fecha_expiracion': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'}),
             }
+
+class RedesSocialesOfertaForm(forms.ModelForm):
+    class Meta:
+        model = RedesSocialesOferta
+        fields = ['instagram', 'tiktok', 'youtube']
+
+
 

@@ -3,36 +3,67 @@
 {% load crispy_forms_tags %}
 
 {% block basePrincipal %}
+
+<form method="post"  enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form | crispy }}
+  </form>
+
+{% endblock %}
+
+
+
+
+<!-- 
 <section class="vh-100" style="background-color: #eee;">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="card text-black" style="border-radius: 25px;">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-  
-                  <p class="my-5 display-3 fw-bold ls-tight text-center">Publicar 
-                    <span class="text-warning">Oferta</span>
-                  </p>
-                  
-                  <form method="post"  enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form | crispy }}
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                            <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Publicar</button>
-                        </div>
-
-                    </form>
-  
-                </div>
+                <p class="my-5 display-3 fw-bold ls-tight text-center">Publicar 
+                  <span class="text-warning">Oferta</span>
+                </p>
                 
+                <form method="post"  enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {{ form | crispy }}
+
+                  <h3>Selecciona los tipos de oferta:</h3>
+                  {{ tipoOferta_formset.management_form }}
+
+                   {% for form in tipoOferta_formset %}
+
+                      {{ form | crispy }}
+                      
+                   {% endfor %}
+
+                   <h3>Selecciona las redes sociales para tu proyecto:</h3>
+                  {{ redesSociales_formset.management_form }}
+
+                   {% for form in redesSociales_formset %}
+
+                      {{ form | crispy }}
+
+                      
+
+                   {% endfor %}
+
+                      <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Publicar</button>
+                      </div>
+
+                  </form>
+
               </div>
+              
             </div>
           </div>
         </div>
       </div>
     </div>
-</section>
-{% endblock %}
+  </div>
+</section> -->

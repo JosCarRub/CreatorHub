@@ -7,6 +7,8 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import *
 from django.contrib import messages
+from django.forms import inlineformset_factory
+
 
 
 # Create your views here.
@@ -43,12 +45,23 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
     def get_context_data_ofertas(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_ofertas'] = Oferta.objects.count()
+        # context['ofertas'] = Oferta.objects.distinct()
         return context
+    
+    def get_queryset(self):
 
-    def get_context_data_user(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
+        query = super().get_queryset()
+        filtro_tipo = self.request.GET.get("filtro_tipo")
+        filtro_plataformas = self.request.GET.get("filtro_plataformas")
+
+        if filtro_tipo :
+            query = query.filter(tipo__icontains = filtro_tipo)
+        
+        if filtro_plataformas:
+            query = query.filter(plataformas__nombre = filtro_plataformas)
+        
+        return query
+
     
     
 
@@ -69,7 +82,7 @@ class UsuarioPerfilView(LoginRequiredMixin, TemplateView):
 class UsuarioActualizarPerfilView(LoginRequiredMixin, UpdateView):
     model = Usuario
     template_name = 'perfil/perfil_actualizar.html'
-    fields = ['username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss']
+    fields = ['username', 'email', 'biografia', 'foto_perfil', 'rol']
 
 
     def get_object(self, queryset=None):
@@ -95,20 +108,70 @@ class UsuarioBorrarPerfilView(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         return context
-    
+
+
+
+
+
 #OFERTAS
+
 class CrearOfertaView(LoginRequiredMixin, CreateView):
     model = Oferta
     form_class = CrearOfertaForm
     template_name = 'oferta/crear_oferta.html'
     success_url = reverse_lazy('perfil')
 
-      #VALIDACION
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ofertas = Oferta.objects.all().distinct()
+        context["ofertas"] = ofertas
+
+        #Línea para crear campos de otro modelo en un formulario de un modelo padre
+        TiposDeOfertaFormSet = inlineformset_factory(Oferta, TipoDeOferta, fields=['tipo'], extra=1, can_delete=False)
+        RedesSocialesOfertaFormSet = inlineformset_factory(Oferta, RedesSocialesOferta, fields=['instagram', 'tiktok', 'youtube'], extra=1, can_delete=False)
+
+        if self.request.POST:
+            context['tipoOferta_formset'] = TiposDeOfertaFormSet(self.request.POST)
+            context['redesSociales_formset'] = RedesSocialesOfertaFormSet(self.request.POST)
+
+        else:
+            context['tipoOferta_formset'] = TiposDeOfertaFormSet()
+            context['redesSociales_formset'] = RedesSocialesOfertaFormSet()
+        return context
+    
+    
+    
     def form_valid(self, form):
-        oferta = form.save(commit=False)
-        oferta.usuario = self.request.user # Si no no se rellena el campo ID
-        oferta.save()
-        return super().form_valid(form)
+        context = self.get_context_data()
+        tipoOferta_formset = context['tipoOferta_formset']
+        redesSociales_formset = context['redesSociales_formset']
+
+        self.object = form.save(commit=False)
+        self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
+        self.object.save()
+
+        if redesSociales_formset.is_valid():
+            rrss = redesSociales_formset.save(commit=False)
+
+            rrss.oferta = self.object
+            rrss.usuario = self.request.user
+            rrss.save()
+        else:
+            return self.form_invalid(form)
+
+        if tipoOferta_formset.is_valid():  
+            tipos = tipoOferta_formset.save(commit=False) 
+
+            if not tipos: 
+                form.add_error(None, "Debes seleccionar al menos un tipo de oferta. Si no encuentras ninguna categoría adecuada, selecciona 'Otra'.\n ¡Si quieres proponer una nueva categoría que no exista, ponte en contacto con nosotros!")
+                return self.form_invalid(form)
+
+            for tipo in tipos:
+                tipo.oferta = self.object  # Relacionamos cada tipo con la oferta creada
+                tipo.save()  # Guardamos en la BD cada TipoDeOferta
+            return super().form_valid(form)  # Si todo es válido, continuar con la vista
+        else:
+            return self.form_invalid(form)  # Si el formset no es válido, rechazar la solicitud
     
     
 
@@ -126,7 +189,7 @@ class ListadoOfertasView(LoginRequiredMixin, ListView):
         context['total_ofertas'] = Oferta.objects.count()
         return context
 
-#BORRAR Y ACTUALIZAR OFERTAS
+
 
 class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
     model = Oferta
@@ -136,7 +199,7 @@ class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('lista_ofertas')
 
   
-
+#BORRAR OFERTAS
 
 #APLICAR A OFERTAS
 
@@ -146,27 +209,4 @@ class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
     
 
 
-    """
-    def get_context_data(self, **kwargs):
-    
-    Es un METODO con el que puedo sobrescribir las vistas basadas en clases para PERSONALIZAR 
-    los DATOS ENVIADOS al CONTEXTO. 
-    self es la instancia de la clase (PrincipalView).
-
-    **kwargs permite capturar cualquier argumento adicional que se pase al contexto(parámetros desde la URL).
-
-    context = super().get_context_data(**kwargs)
-
-
-    Llama al método get_context_data de la clase base de la vista (la que estoy heredando).
-    Este método devuelve un diccionario (context) con los datos que la clase base ya estaba 
-    agregando al contexto.
-    
-    **kwargs se pasa al método base para asegurarte de que todos los datos esperados se procesen 
-    correctamente.
-
-    context['nombre'] = self.request.user.username
-
-    Aquí se agrega una nueva clave 'nombre' al diccionario context
-    
-    """
+  
