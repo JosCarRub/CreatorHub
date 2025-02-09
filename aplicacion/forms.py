@@ -32,15 +32,22 @@ class UsuarioEmpresaCreationForm(UserCreationForm):
 class CrearOfertaForm(forms.ModelForm):
     class Meta:
         model = Oferta
-        fields = ('descripcion', 'descripcion', 'requisitos') 
+        fields = ('descripcion', 'requisitos', 'tiktok', 'instagram', 'youtube','twitch', 'fecha_expiracion') 
         widgets = {
+
                 'fecha_expiracion': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'}),
             }
+        
+        help_texts = {
+            'tiktok': 'Selecciona esta casilla si tu oferta está relacionada con TikTok.',
+            'instagram': 'Selecciona esta casilla si tu oferta está relacionada con Instagram.',
+            'youtube': 'Selecciona esta casilla si tu oferta está relacionada con YouTube.',
+            'twicht': 'Selecciona esta casilla si tu oferta está relacionada con Twitch.',
+        }
 
-class RedesSocialesOfertaForm(forms.ModelForm):
-    class Meta:
-        model = RedesSocialesOferta
-        fields = ['instagram', 'tiktok', 'youtube']
+       
+
+        
 
 
 

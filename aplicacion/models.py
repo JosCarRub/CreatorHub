@@ -34,38 +34,31 @@ class Usuario(AbstractUser):
             raise ValidationError({'biografia': 'El texto no puede tener más de 420 caracteres.'})
 
 class RedesSocialesUsuario(models.Model):
+
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_redes")
     instagram = models.CharField(max_length=100, blank=True,  null=True)
     tiktok = models.CharField(max_length=100, blank=True,  null=True)
     youtube = models.CharField(max_length=100, blank=True,  null=True)
+    twicht = models.CharField(max_length=100, blank=True,  null=True)
+
+
+
         
 #OFERTAS
-
-class RedesSocialesOferta(models.Model):
-    instagram = models.CharField(max_length=100, blank=True, null=True)
-    tiktok = models.CharField(max_length=100, blank=True, null=True)
-    youtube = models.CharField(max_length=100, blank=True, null=True)
-
-    def __str__(self):
-        redes = []
-        if self.instagram:
-            redes.append('Instagram')
-        if self.tiktok:
-            redes.append('TikTok')
-        if self.youtube:
-            redes.append('YouTube')
-        return f'Redes sociales asociadas a oferta: {", ".join(redes)}'
-        
-
 class Oferta(models.Model):
 
     ESTADO_OPCIONES = [
         ('vigente', 'Vigente' ),
         ('expirada', 'Expirada' ),
     ]
+
+   
     
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_ofertas") 
-    redes_sociales = models.ManyToManyField(RedesSocialesOferta, related_name='get_oferta_redes')
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_ofertas")
+    tiktok = models.BooleanField(default=False)
+    instagram = models.BooleanField(default=False)
+    youtube = models.BooleanField(default=False)
+    twitch = models.BooleanField(default=False)
     descripcion = models.TextField()
     requisitos = models.TextField()
     estado = models.CharField(max_length=50, choices=ESTADO_OPCIONES, default='vigente')
@@ -75,10 +68,7 @@ class Oferta(models.Model):
     def __str__(self):
         return f'oferta publicada por {self.usuario}'
     
-
-
-    
-    
+  
 class TipoDeOferta(models.Model):
 
     OFERTA_OPCIONES = [

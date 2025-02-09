@@ -40,20 +40,15 @@
                 <div class="col-md-3"></div>
                     <label>Plataforma:</label>
                     <select name="filtro_tipo" class="form-select">
-                        <option value="">Selecciona la plataforma en la que quieres trabajar:</option>
-                        {% for oferta in ofertas %}
-                            {% for plataforma in oferta.plataformas.distin %}
-                                <option {% if request.GET.filtro_tipo == oferta.plataforma %} 
-                                    selected 
-                                    {% endif %}>
-                                    {{oferta.plataforma}}
-                                </option>
-                            {% endfor %}
-                        {% empty %}
-                            <p>No hay ofertas con ninguna categoría asignada aún</p>
-                        {% endfor %}
+                        <option value="">Selecciona la red social en la que quieres trabajar:</option>
+                        
+                        <!-- Solo añadir las plataformas que tienen ofertas -->
+                        <option value="tiktok" {% if request.GET.filtro_tipo == "tiktok" %}selected{% endif %}>TikTok</option>
+                        <option value="instagram" {% if request.GET.filtro_tipo == "instagram" %}selected{% endif %}>Instagram</option>
+                        <option value="youtube" {% if request.GET.filtro_tipo == "youtube" %}selected{% endif %}>YouTube</option>
+                        <option value="twitch" {% if request.GET.filtro_tipo == "twitch" %}selected{% endif %}>Twitch</option>
                     </select>
-                </div>
+
 
                 <div class="col-md-2">
                     <input type="submit" class="btn btn-primary w-100" value="Filtrar">
@@ -121,7 +116,7 @@
                             </td>
                             <td class="px-4 py-3">
                                 <span class="badge bg-light text-dark">
-                                    <a href="#" class="btn btn-outline-success" >¡ME INTERESA!</a>
+                                    <a href="{% url 'detalle_oferta' oferta.pk %}" class="btn btn-outline-success" >¡ME INTERESA!</a>
                                 </span>
                             </td>
                         </tr>

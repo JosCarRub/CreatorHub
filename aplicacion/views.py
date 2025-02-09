@@ -7,7 +7,7 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import *
 from django.contrib import messages
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, modelformset_factory
 
 
 
@@ -57,8 +57,22 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
         if filtro_tipo :
             query = query.filter(tipo__icontains = filtro_tipo)
         
-        if filtro_plataformas:
-            query = query.filter(plataformas__nombre = filtro_plataformas)
+        tiktok = self.request.GET.get('tiktok')
+        instagram = self.request.GET.get('instagram')
+        youtube = self.request.GET.get('youtube')
+        twitch = self.request.GET.get('twitch')
+
+        if tiktok:
+            queryset = queryset.filter(tiktok=True)
+
+        if instagram:
+            queryset = queryset.filter(instagram=True)
+
+        if youtube:
+            queryset = queryset.filter(youtube=True)
+
+        if twitch:
+            queryset = queryset.filter(twitch=True)
         
         return query
 
@@ -128,15 +142,12 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
 
         #Línea para crear campos de otro modelo en un formulario de un modelo padre
         TiposDeOfertaFormSet = inlineformset_factory(Oferta, TipoDeOferta, fields=['tipo'], extra=1, can_delete=False)
-        RedesSocialesOfertaFormSet = inlineformset_factory(Oferta, RedesSocialesOferta, fields=['instagram', 'tiktok', 'youtube'], extra=1, can_delete=False)
 
         if self.request.POST:
             context['tipoOferta_formset'] = TiposDeOfertaFormSet(self.request.POST)
-            context['redesSociales_formset'] = RedesSocialesOfertaFormSet(self.request.POST)
 
         else:
             context['tipoOferta_formset'] = TiposDeOfertaFormSet()
-            context['redesSociales_formset'] = RedesSocialesOfertaFormSet()
         return context
     
     
@@ -144,20 +155,11 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         tipoOferta_formset = context['tipoOferta_formset']
-        redesSociales_formset = context['redesSociales_formset']
 
         self.object = form.save(commit=False)
         self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
         self.object.save()
 
-        if redesSociales_formset.is_valid():
-            rrss = redesSociales_formset.save(commit=False)
-
-            rrss.oferta = self.object
-            rrss.usuario = self.request.user
-            rrss.save()
-        else:
-            return self.form_invalid(form)
 
         if tipoOferta_formset.is_valid():  
             tipos = tipoOferta_formset.save(commit=False) 
@@ -172,7 +174,7 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)  # Si todo es válido, continuar con la vista
         else:
             return self.form_invalid(form)  # Si el formset no es válido, rechazar la solicitud
-    
+
     
 
 
@@ -191,12 +193,9 @@ class ListadoOfertasView(LoginRequiredMixin, ListView):
 
 
 
-class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
+class DetalleOfertaView(LoginRequiredMixin, DetailView):
     model = Oferta
-    template_name = 'oferta/actualizar_oferta.html'
-    form_class = CrearOfertaForm
-    fields = '__all__'
-    success_url = reverse_lazy('lista_ofertas')
+    template_name = 'oferta/detalle_oferta.html'
 
   
 #BORRAR OFERTAS
@@ -204,6 +203,57 @@ class ActualizarOfertaView(LoginRequiredMixin, UpdateView):
 #APLICAR A OFERTAS
 
     
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     ofertas = Oferta.objects.all().distinct()
+    #     context["ofertas"] = ofertas
+
+    #     #Línea para crear campos de otro modelo en un formulario de un modelo padre
+    #     TiposDeOfertaFormSet = inlineformset_factory(Oferta, TipoDeOferta, fields=['tipo'], extra=1, can_delete=False)
+    #     RedesSocialesOfertaFormSet = inlineformset_factory(Oferta, RedesSocialesOferta, fields=['instagram', 'tiktok', 'youtube'], extra=1, can_delete=False)
+
+    #     if self.request.POST:
+    #         context['tipoOferta_formset'] = TiposDeOfertaFormSet(self.request.POST)
+    #         context['redesSociales_formset'] = RedesSocialesOfertaFormSet(self.request.POST)
+
+    #     else:
+    #         context['tipoOferta_formset'] = TiposDeOfertaFormSet()
+    #         context['redesSociales_formset'] = RedesSocialesOfertaFormSet()
+    #     return context
+    
+    
+    
+    # def form_valid(self, form):
+    #     context = self.get_context_data()
+    #     tipoOferta_formset = context['tipoOferta_formset']
+    #     redesSociales_formset = context['redesSociales_formset']
+
+    #     self.object = form.save(commit=False)
+    #     self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
+    #     self.object.save()
+
+    #     if redesSociales_formset.is_valid():
+    #         rrss = redesSociales_formset.save(commit=False)
+
+    #         rrss.oferta = self.object
+    #         rrss.usuario = self.request.user
+    #         rrss.save()
+    #     else:
+    #         return self.form_invalid(form)
+
+    #     if tipoOferta_formset.is_valid():  
+    #         tipos = tipoOferta_formset.save(commit=False) 
+
+    #         if not tipos: 
+    #             form.add_error(None, "Debes seleccionar al menos un tipo de oferta. Si no encuentras ninguna categoría adecuada, selecciona 'Otra'.\n ¡Si quieres proponer una nueva categoría que no exista, ponte en contacto con nosotros!")
+    #             return self.form_invalid(form)
+
+    #         for tipo in tipos:
+    #             tipo.oferta = self.object  # Relacionamos cada tipo con la oferta creada
+    #             tipo.save()  # Guardamos en la BD cada TipoDeOferta
+    #         return super().form_valid(form)  # Si todo es válido, continuar con la vista
+    #     else:
+    #         return self.form_invalid(form)  # Si el formset no es válido, rechazar la solicitud
 
 
     
