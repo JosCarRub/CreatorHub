@@ -165,8 +165,8 @@
                             <th class="px-4 py-3 text-uppercase fw-semibold">EMPRESA</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold">DESCRIPCIÓN</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold">REQUISITOS</th>
-                            <th class="px-4 py-3 text-uppercase fw-semibold">APLICACIONES</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold">FECHA EXPIRACIÓN</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">APLICACIONES</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold"></th>
                         </tr>
                     </thead>
@@ -190,15 +190,16 @@
                                     {{ oferta.requisitos }}
                                 </div>
                             </td>
-                            <td class="px-4 py-3">
-                                {{ oferta.plataformas }}
-                            </td>
+
                             <td class="px-4 py-3">
                                 <span class="badge bg-light text-dark">
                                     {{ oferta.fecha_expiracion }}
                                 </span>
                             </td>
-                            
+
+                            <td class="px-4 py-3">
+                                {{ oferta.plataformas }}
+                            </td>                           
                         </tr>
                         {% empty %}
                         <tr>
