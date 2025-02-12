@@ -39,13 +39,20 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
     template_name = 'principales/principal.html'
     context_object_name = 'ofertas'
 
-    def get_queryset(self):
-        return Oferta.objects.all().order_by('-fecha_publicacion')
+    # def get_queryset(self):
+    #     return Oferta.objects.all().order_by('-fecha_publicacion')
+    
 
-    def get_context_data_ofertas(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        ofertas_empresa = Oferta.objects.filter(
+            usuario=self.request.user
+            ).order_by('-fecha_publicacion')
+        
+        context["ofertas_empresa"] = ofertas_empresa
+
         context['total_ofertas'] = Oferta.objects.count()
-        # context['ofertas'] = Oferta.objects.distinct()
         return context
     
     def get_queryset(self):
@@ -88,7 +95,8 @@ class UsuarioPerfilView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
-        # context['ofertas'] = usuario.ofertas.all().order_by('-fecha_publicacion')
+        #context['ofertas'] = Usuario.get_usuario_ofertas.all().order_by('-fecha_publicacion')
+
 
         return context
     
@@ -115,7 +123,7 @@ class UsuarioBorrarPerfilView(LoginRequiredMixin, DeleteView):
     template_name = 'perfil/perfil_borrar.html'
     success_url = reverse_lazy('principal')
 
-    def get_object(self, queryset=None):         # Retorna el usuario actual (self.request.user)
+    def get_object(self, queryset=None):
         return self.request.user
 
     def get_context_data(self, **kwargs):
@@ -173,10 +181,9 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
                 tipo.save()  # Guardamos en la BD cada TipoDeOferta
             return super().form_valid(form)  # Si todo es válido, continuar con la vista
         else:
-            return self.form_invalid(form)  # Si el formset no es válido, rechazar la solicitud
+            return self.form_invalid(form)  
 
     
-
 
 class ListadoOfertasView(LoginRequiredMixin, ListView):
     model = Oferta
@@ -198,11 +205,33 @@ class DetalleOfertaView(LoginRequiredMixin, DetailView):
     template_name = 'oferta/detalle_oferta.html'
 
   
-#BORRAR OFERTAS
+#CANCELAR = CAMBIAR ESTADO --> OFERTAS
+
 
 #APLICAR A OFERTAS
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
+
+
+
+
+
+
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     ofertas = Oferta.objects.all().distinct()

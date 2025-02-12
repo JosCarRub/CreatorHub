@@ -133,6 +133,96 @@
         </div>
     </div>
 </div>
+
+{% else %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Saludos {{user.username}}!</h1>
+      <p class="lead">Aquí tienes tus ofertas publicadas y las aplicaciones a las mismas</p>
+    </div>
+</div>
+
+<!-- OFERTAS PUBLICAS POR EMPRESA -->
+
+<div class="container py-4">
+    <!-- Card principal con sombra y bordes modernos -->
+    <div class="card shadow-lg border-0 rounded-3">
+        <!-- Header de la card con fondo blanco -->
+        <div class="card-header bg-white border-0 py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold text-primary">Tus ofertas publicadas</h5>
+            </div>
+        </div>
+        
+        <div class="card-body p-0">
+            <!-- Tabla responsive -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <!-- Encabezado de la tabla -->
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="px-4 py-3 text-uppercase fw-semibold">EMPRESA</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">DESCRIPCIÓN</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">REQUISITOS</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">APLICACIONES</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">FECHA EXPIRACIÓN</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold"></th>
+                        </tr>
+                    </thead>
+                    
+                    <!-- Cuerpo de la tabla -->
+                    <tbody>
+                        {% for oferta in ofertas_empresa %}
+                        <tr>
+                            <td class="px-4 py-3">
+                                <a href="#" class="text-decoration-none link-dark fw-semibold">
+                                    {{ oferta.usuario }}
+                                </a>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="text-wrap" style="max-width: 200px;">
+                                    {{ oferta.descripcion }}
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="text-wrap" style="max-width: 200px;">
+                                    {{ oferta.requisitos }}
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                {{ oferta.plataformas }}
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="badge bg-light text-dark">
+                                    {{ oferta.fecha_expiracion }}
+                                </span>
+                            </td>
+                            
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <p class="text-muted mb-0">Todavía no has publicado ninguna oferta</p>                           
+                            </td>
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="{% url 'crear_oferta' %}" class="btn btn-success mb-3 w-20">
+        Publicar Oferta
+    </a>
+</div>
+
+
+
 {% endif %}
 
 {% endblock %}

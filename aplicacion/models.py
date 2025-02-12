@@ -68,6 +68,10 @@ class Oferta(models.Model):
     def __str__(self):
         return f'oferta publicada por {self.usuario}'
     
+    def numero_aspirantes(self):
+        return self.get_oferta_aplicaciones.count()
+
+    
   
 class TipoDeOferta(models.Model):
 
