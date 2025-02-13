@@ -19,8 +19,14 @@ class UsuarioEmpresaCreationForm(UserCreationForm):
         model = get_user_model()
         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol')
         widgets = {
-            'biografia': forms.Textarea(attrs={'maxlength': 420}),  # Agregar el límite en el HTML
+            'biografia': forms.Textarea(attrs={'maxlength': 420}), 
         }
+
+class UsuarioRedesCreationForm(forms.ModelForm):
+    class Meta:
+        model = RedesSocialesUsuario
+        fields = ('instagram', 'tiktok', 'youtube', 'twicht')
+
 
 #PERFIL USUARIO
 # class UsuarioActualizarPerfilForm(forms.ModelForm):
@@ -42,7 +48,7 @@ class CrearOfertaForm(forms.ModelForm):
             'tiktok': 'Selecciona esta casilla si tu oferta está relacionada con TikTok.',
             'instagram': 'Selecciona esta casilla si tu oferta está relacionada con Instagram.',
             'youtube': 'Selecciona esta casilla si tu oferta está relacionada con YouTube.',
-            'twicht': 'Selecciona esta casilla si tu oferta está relacionada con Twitch.',
+            'twitch': 'Selecciona esta casilla si tu oferta está relacionada con Twitch.',
         }
 
        

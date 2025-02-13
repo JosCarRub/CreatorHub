@@ -59,15 +59,37 @@
                 
                             <div class="mt-3">
                               <a href="{% url 'principal' %}" class="btn btn-secondary">Volver a Ofertas</a>
-                              <a href="#" class="btn btn-success">Aplicar</a>
+                              <button type="button" class="btn btn-success w-30" data-bs-toggle="modal" data-bs-target="#confirmAplicarModal">
+                                Aplicar
+                            </button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal de Confirmación -->
+                <div class="modal fade" id="confirmAplicarModal" tabindex="-1" aria-labelledby="confirmAplicarModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                          <div class="modal-header bg-success text-white">
+                              <h5 class="modal-title" id="confirmAplicarModalLabel">Confirmar Aplicación a Oferta</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Aplicar"></button>
+                          </div>
+                          <div class="modal-body">
+                              <p class="text-center">
+                                  ¿Confirmar la aplicación a la oferta publicada por <strong>{{ oferta.usuario }}</strong>?<br>
+                              </p>
+                          </div>
+                          <div class="modal-footer">
+                              <a href="#" class="btn btn-success">Confirmar</a>
+                          </div>
+                      </div>
+                  </div>
+                </div>
                   
                   
   
-                </div>
+                
                 
               </div>
             </div>

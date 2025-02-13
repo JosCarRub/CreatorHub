@@ -95,7 +95,17 @@ class UsuarioPerfilView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
-        #context['ofertas'] = Usuario.get_usuario_ofertas.all().order_by('-fecha_publicacion')
+
+        context['redes_usuario'] = RedesSocialesUsuario.objects.filter(
+            usuario = self.request.user
+        ).first()
+
+
+        numero_ofertas_publicadas = Oferta.objects.filter(
+            usuario=self.request.user
+            ).count()
+        
+        context['numero_ofertas_publicadas'] = numero_ofertas_publicadas
 
 
         return context
@@ -130,6 +140,21 @@ class UsuarioBorrarPerfilView(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         return context
+
+class UsuarioCompletarRedesView(LoginRequiredMixin, CreateView):
+    form_class = UsuarioRedesCreationForm
+    template_name = 'perfil/perfil_completar_redes.html'
+    success_url = reverse_lazy('perfil')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
+        self.object.save()
+        return super().form_valid(form)
+    
+
+
+        
 
 
 

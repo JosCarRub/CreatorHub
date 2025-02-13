@@ -17,6 +17,8 @@ urlpatterns = [
     path('perfil/', UsuarioPerfilView.as_view(), name='perfil'),
     path('perfil_actualizar/', UsuarioActualizarPerfilView.as_view(), name='perfil_actualizar'),
     path('perfil_borrar/', UsuarioBorrarPerfilView.as_view(), name='perfil_borrar'),
+    path('perfil_completar_redes/', UsuarioCompletarRedesView.as_view(), name='perfil_completar_redes'),
+
 
     #OFERTA
     path('crear_oferta/', CrearOfertaView.as_view(), name='crear_oferta'),
