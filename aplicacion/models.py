@@ -116,9 +116,14 @@ class AplicacionOferta(models.Model):
     ]
 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="get_usuario_aplicaciones")
+
     oferta = models.ForeignKey(Oferta, on_delete=models.CASCADE, related_name="get_oferta_aplicaciones")
-    estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA, verbose_name='Estado de la aplicación a la oferta')
+
+    estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA,
+                                         default='solicitada',verbose_name='Estado de la aplicación a la oferta')
+    
     fecha_expiracion = models.DateField()
+
     puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
 
     class Meta:
@@ -128,6 +133,7 @@ class AplicacionOferta(models.Model):
     def __str__(self):
         return f'Estado de la oferta: {self.estado_aplicacion} | Fecha de expiración: {self.fecha_expiracion}'
     
+   
 
 #HAY QUE HACER VALIDACIONES
     

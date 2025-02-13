@@ -23,6 +23,7 @@ urlpatterns = [
     #OFERTA
     path('crear_oferta/', CrearOfertaView.as_view(), name='crear_oferta'),
     path('detalle_oferta/<int:pk>', DetalleOfertaView.as_view(), name='detalle_oferta'),
+    path('aplicar_oferta/<int:pk>', DetalleOfertaView.as_view(), name='aplicar_oferta'),
     
 
 

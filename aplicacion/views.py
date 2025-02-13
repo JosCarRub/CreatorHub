@@ -23,7 +23,6 @@ class RegistroParticularView(CreateView):
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        messages.success(self.request,'Usuario creado correctamente')
         return super().form_valid(form)
 
 class RegistroEmpresaView(CreateView):
@@ -38,50 +37,22 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
     model = Oferta
     template_name = 'principales/principal.html'
     context_object_name = 'ofertas'
-
-    # def get_queryset(self):
-    #     return Oferta.objects.all().order_by('-fecha_publicacion')
-    
-
+   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        ofertas_empresa = Oferta.objects.filter(
+        context["ofertas_empresa"] = Oferta.objects.filter(
             usuario=self.request.user
             ).order_by('-fecha_publicacion')
         
-        context["ofertas_empresa"] = ofertas_empresa
-
-        context['total_ofertas'] = Oferta.objects.count()
+        context['ofertas_tipos'] = TipoDeOferta.objects.filter(
+            oferta__usuario=self.request.user)
+        
+        context['ofertas_aplicaciones'] = AplicacionOferta.objects.filter(
+            oferta__usuario=self.request.user).count()
+        
         return context
     
-    def get_queryset(self):
-
-        query = super().get_queryset()
-        filtro_tipo = self.request.GET.get("filtro_tipo")
-        filtro_plataformas = self.request.GET.get("filtro_plataformas")
-
-        if filtro_tipo :
-            query = query.filter(tipo__icontains = filtro_tipo)
-        
-        tiktok = self.request.GET.get('tiktok')
-        instagram = self.request.GET.get('instagram')
-        youtube = self.request.GET.get('youtube')
-        twitch = self.request.GET.get('twitch')
-
-        if tiktok:
-            queryset = queryset.filter(tiktok=True)
-
-        if instagram:
-            queryset = queryset.filter(instagram=True)
-
-        if youtube:
-            queryset = queryset.filter(youtube=True)
-
-        if twitch:
-            queryset = queryset.filter(twitch=True)
-        
-        return query
 
     
     
@@ -229,11 +200,38 @@ class DetalleOfertaView(LoginRequiredMixin, DetailView):
     model = Oferta
     template_name = 'oferta/detalle_oferta.html'
 
+
+# class AplicarOfertaView(ListView):
+#     def post(self, request, pk):
+#         oferta = get_object_or_404(Oferta, pk=pk)
+#         usuario = request.user
+
+#         # Verificar si el usuario ya ha aplicado a esta oferta
+#         aplicacion_existente = AplicacionOferta.objects.filter(usuario=usuario, oferta=oferta).exists()
+
+#         if aplicacion_existente:
+#             messages.warning(request, "Ya has aplicado a esta oferta.")
+#         else:
+#             AplicacionOferta.objects.create(
+#                 usuario=usuario,
+#                 oferta=oferta,
+#                 estado_aplicacion='solicitada',
+#                 fecha_expiracion=oferta.fecha_expiracion  # Tomar la fecha de la oferta
+#             )
+#             messages.success(request, "Has aplicado correctamente a la oferta.")
+
+#         return redirect('perfil')  # Redirige de nuevo al detalle de la oferta
+
+
+
+
   
 #CANCELAR = CAMBIAR ESTADO --> OFERTAS
 
 
 #APLICAR A OFERTAS
+
+
 
 
 

@@ -12,52 +12,8 @@
 </div>
 
 
-<!-- Filtros -->
-<div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <form method="GET" class="row g-3">
-
-                <div class="col-md-3">
-                    <label>Tipo de Oferta:</label>
-                    <select name="filtro_tipo" class="form-select">
-                        <option value="">Selecciona una categoría:</option>
-                        {% for oferta in ofertas %}
-                            {% for tipo_oferta in oferta.get_oferta_tipos.all %}
-
-                                <option {% if request.GET.filtro_tipo == tipo_oferta.tipo %} 
-                                    selected 
-                                    {% endif %}>
-                                    {{tipo_oferta.tipo}}
-                                </option>
-                            {% endfor %}
-                        {% empty %}
-                            <p>No hay ofertas con ninguna categoría asignada aún</p>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-md-3"></div>
-                    <label>Plataforma:</label>
-                    <select name="filtro_tipo" class="form-select">
-                        <option value="">Selecciona la red social en la que quieres trabajar:</option>
-                        
-                        <!-- Solo añadir las plataformas que tienen ofertas -->
-                        <option value="tiktok" {% if request.GET.filtro_tipo == "tiktok" %}selected{% endif %}>TikTok</option>
-                        <option value="instagram" {% if request.GET.filtro_tipo == "instagram" %}selected{% endif %}>Instagram</option>
-                        <option value="youtube" {% if request.GET.filtro_tipo == "youtube" %}selected{% endif %}>YouTube</option>
-                        <option value="twitch" {% if request.GET.filtro_tipo == "twitch" %}selected{% endif %}>Twitch</option>
-                    </select>
 
 
-                <div class="col-md-2">
-                    <input type="submit" class="btn btn-primary w-100" value="Filtrar">
-                </div>
-               
-            </form>
-        </div>
-    </div>
-</div>
 
 
 <div class="container py-4">
@@ -82,7 +38,8 @@
                             <th class="px-4 py-3 text-uppercase fw-semibold">DESCRIPCIÓN</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold">REQUISITOS</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold">PLATAFORMAS</th>
-                            <th class="px-4 py-3 text-uppercase fw-semibold">FECHA EXPIRACIÓN</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">CATEGORÍA</th>
+                            <th class="px-4 py-3 text-uppercase fw-semibold">FECHA DE EXPIRACIÓN</th>
                             <th class="px-4 py-3 text-uppercase fw-semibold"></th>
                         </tr>
                     </thead>
@@ -106,9 +63,31 @@
                                     {{ oferta.requisitos }}
                                 </div>
                             </td>
+
                             <td class="px-4 py-3">
-                                {{ oferta.plataformas }}
+                                {% if oferta.instagram %}
+                                    Instagram
+                                {% endif %}
+                                {% if oferta.tiktok %}
+                                    {% if oferta.instagram %}, {% endif %} TikTok
+                                {% endif %}
+                                {% if oferta.youtube %}
+                                    {% if oferta.instagram or oferta.tiktok %}, {% endif %} YouTube
+                                {% endif %}
+                                {% if oferta.twitch %}
+                                    {% if oferta.instagram or oferta.tiktok or oferta.youtube %}, {% endif %} Twitch
+                                {% endif %}
                             </td>
+
+                            <td class="px-4 py-3">
+                                {% for tipo in oferta.get_oferta_tipos.all %}
+                                    {{ tipo.tipo }}
+                                {% empty %}
+                                    Sin categoría
+                                {% endfor %}
+                            </td>
+
+
                             <td class="px-4 py-3">
                                 <span class="badge bg-light text-dark">
                                     {{ oferta.fecha_expiracion }}
@@ -198,7 +177,7 @@
                             </td>
 
                             <td class="px-4 py-3">
-                                {{ oferta.plataformas }}
+                                {{ ofertas_aplicaciones }}
                             </td>                           
                         </tr>
                         {% empty %}
