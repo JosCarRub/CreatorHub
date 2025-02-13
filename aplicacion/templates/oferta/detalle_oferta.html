@@ -83,7 +83,9 @@
                           <div class="modal-footer">
                             <form action="{% url 'aplicar_oferta' oferta.pk %}" method="POST">
                               {% csrf_token %}
-                              <button type="submit" class="btn btn-primary">Aplicar a esta oferta</button>
+                              <button type="submit" class="btn btn-success">
+                                Aplicar a esta oferta
+                              </button>
                           </form>
                           </div>
                       </div>

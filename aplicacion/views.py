@@ -1,6 +1,6 @@
 from django.http import HttpResponseForbidden
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView ,TemplateView, CreateView, DetailView, UpdateView, DeleteView, FormView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
@@ -48,8 +48,12 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
         context['ofertas_tipos'] = TipoDeOferta.objects.filter(
             oferta__usuario=self.request.user)
         
-        context['ofertas_aplicaciones'] = AplicacionOferta.objects.filter(
-            oferta__usuario=self.request.user).count()
+        aplicaciones_por_oferta = {
+            oferta.pk: AplicacionOferta.objects.filter(oferta=oferta).count()
+            for oferta in context["ofertas"]
+        }
+
+        context["ofertas_aplicaciones"] = aplicaciones_por_oferta
         
         return context
     
@@ -201,26 +205,69 @@ class DetalleOfertaView(LoginRequiredMixin, DetailView):
     template_name = 'oferta/detalle_oferta.html'
 
 
-# class AplicarOfertaView(ListView):
-#     def post(self, request, pk):
-#         oferta = get_object_or_404(Oferta, pk=pk)
-#         usuario = request.user
+class AplicarOfertaView(LoginRequiredMixin, CreateView):
+    model = AplicacionOferta
+    fields = []
+    success_url = reverse_lazy('perfil')
 
-#         # Verificar si el usuario ya ha aplicado a esta oferta
-#         aplicacion_existente = AplicacionOferta.objects.filter(usuario=usuario, oferta=oferta).exists()
+    def form_valid(self,form):
+        oferta = get_object_or_404(Oferta, pk=self.kwargs['pk'])
+        self.object = form.save(commit=False)
+        self.object.usuario = self.request.user
+        self.object.oferta = oferta
+        self.object.fecha_expiracion = oferta.fecha_expiracion
+        
+        self.object.save()
 
-#         if aplicacion_existente:
-#             messages.warning(request, "Ya has aplicado a esta oferta.")
-#         else:
-#             AplicacionOferta.objects.create(
-#                 usuario=usuario,
-#                 oferta=oferta,
-#                 estado_aplicacion='solicitada',
-#                 fecha_expiracion=oferta.fecha_expiracion  # Tomar la fecha de la oferta
-#             )
-#             messages.success(request, "Has aplicado correctamente a la oferta.")
+        return super().form_valid(form)
 
-#         return redirect('perfil')  # Redirige de nuevo al detalle de la oferta
+    
+    
+
+
+
+
+
+
+    # def form_valid(self, form):
+    #     if AplicacionOferta.objects.filter(usuario=self.request.user, oferta=oferta).exists():
+    #         return self.form_invalid(form)
+    #     else:
+
+    #         oferta = get_object_or_404(Oferta, pk=self.kwargs['pk'])
+    #         self.object = form.save(commit=False)
+    #         self.object.usuario = self.request.user 
+    #         self.object.oferta = oferta
+    #         self.object.fecha_expiracion = oferta.fecha_expiracion
+    #         self.object.save()
+    #         return super().form_valid(form)
+    
+
+    
+
+
+
+
+
+    # def post(self, request, pk):
+    #     oferta = get_object_or_404(Oferta, pk=pk)
+    #     usuario = request.user
+
+    #     # Verificar si el usuario ya ha aplicado a esta oferta
+    #     aplicacion_existente = AplicacionOferta.objects.filter(usuario=usuario, oferta=oferta).exists()
+
+    #     if aplicacion_existente:
+    #         messages.warning(request, "Ya has aplicado a esta oferta.")
+    #     else:
+    #         AplicacionOferta.objects.create(
+    #             usuario=usuario,
+    #             oferta=oferta,
+    #             estado_aplicacion='solicitada',
+    #             fecha_expiracion=oferta.fecha_expiracion  # Tomar la fecha de la oferta
+    #         )
+    #         messages.success(request, "Has aplicado correctamente a la oferta.")
+
+    #     return redirect('perfil')  # Redirige de nuevo al detalle de la oferta
 
 
 

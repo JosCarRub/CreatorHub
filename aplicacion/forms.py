@@ -28,12 +28,6 @@ class UsuarioRedesCreationForm(forms.ModelForm):
         fields = ('instagram', 'tiktok', 'youtube', 'twicht')
 
 
-#PERFIL USUARIO
-# class UsuarioActualizarPerfilForm(forms.ModelForm):
-#     class Meta:
-#         model = get_user_model()
-#         fields = ('username', 'email', 'biografia', 'foto_perfil', 'rol', 'instagram', 'tiktok', 'otras_rrss')
-
 #CRUD OFERTAS
 class CrearOfertaForm(forms.ModelForm):
     class Meta:
@@ -50,6 +44,13 @@ class CrearOfertaForm(forms.ModelForm):
             'youtube': 'Selecciona esta casilla si tu oferta está relacionada con YouTube.',
             'twitch': 'Selecciona esta casilla si tu oferta está relacionada con Twitch.',
         }
+
+class AplicacionOfertaForm(forms.ModelForm):
+    class Meta:
+        model = AplicacionOferta
+        fields = []
+
+
 
        
 
