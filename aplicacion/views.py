@@ -222,23 +222,33 @@ class AplicarOfertaView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
-    model = AplicacionOferta
+    model = Oferta
     template_name = 'oferta/aplicaciones/detalle_aspirantes_oferta.html'
+    context_object_name = 'oferta'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['aplicaciones'] = AplicacionOferta.objects.all()
+        aplicaciones = AplicacionOferta.objects.filter(oferta=self.object)
+        
+        # Creamos un diccionario para almacenar las redes sociales de cada usuario
+        redes_por_usuario = {}
+
+        for aplicacion in aplicaciones:
+            usuario = aplicacion.usuario
+            # Consultamos las redes sociales de cada usuario
+            redes = RedesSocialesUsuario.objects.filter(usuario=usuario).first()
+            redes_por_usuario[usuario.id] = redes  # Guardamos las redes de cada usuario en el diccionario
+        
+        context['aplicaciones'] = aplicaciones
+        context['redes_por_usuario'] = redes_por_usuario  # Pasamos el diccionario al contexto
         return context
     
 
-class DetallePerfilAspirantesOfertaView(LoginRequiredMixin, DetailView):
-    model = AplicacionOferta
-    template_name = 'oferta/aplicaciones/detalle_perfil_aspirantes_oferta.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['aplicaciones'] = AplicacionOferta.objects.all()
-        return context
+
+
+
 
     
 

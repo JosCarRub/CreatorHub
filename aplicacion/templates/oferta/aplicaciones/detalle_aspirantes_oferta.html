@@ -1,57 +1,107 @@
 {% extends 'principales/base.html' %}
+{% load extra_filters %}
 
 {% block basePrincipal %}
-<!-- Sección de Usuarios que aplicaron -->
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-dark text-white">
-            <h4 class="mb-0">Usuarios que aplicaron a esta oferta</h4>
+<div class="container py-5">
+    <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark bg-gradient text-white rounded-top p-4 d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold mb-0">Usuarios que aplicaron a esta oferta</h4>
+            <span class="badge bg-white text-danger rounded-pill px-3">{{ aplicaciones|length }}</span>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             {% if aplicaciones %}
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Usuario</th>
-                            <th>Estado</th>
-                            <th>Ver perfil</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for aplicacion in aplicaciones %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ aplicacion.usuario }}</td>
-                                <td>
-                                    <span class="badge 
-                                        {% if aplicacion.estado_aplicacion == 'solicitada' %}bg-info
-                                        {% elif aplicacion.estado_aplicacion == 'aceptada' %}bg-success
-                                        {% else %}bg-danger{% endif %}">
-                                        {{ aplicacion.get_estado_aplicacion_display }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="{% url 'detalle_perfil_aspirantes_oferta' aplicacion.usuario.pk %}" class="btn btn-primary">Ver perfil</a>
-                                </td>
-                                <td>
-                                    <form method="post" action="">
-                                        {% csrf_token %}
-                                        <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm">Aceptar</button>
-                                        <button type="submit" name="estado" value="denegada" class="btn btn-danger btn-sm">Rechazar</button>
-                                    </form>
-                                </td>
+                                <th class="fw-bold"></th>
+                                <th class="fw-bold">Nombre</th>
+                                <th class="fw-bold">Email</th>
+                                <th class="fw-bold">Biografía</th>
+                                <th class="fw-bold">Número de Trabajos</th>
+                                <th class="fw-bold">Puntuación Promedio</th>
+                                <th class="fw-bold">Redes Sociales</th>
+                                <th class="fw-bold">Estado</th>
+                                <th class="fw-bold">Acción</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for aplicacion in aplicaciones %}
+                                <tr class="align-middle">
+                                    <td>
+                                        <img src="{{ aplicacion.usuario.foto_perfil.url }}" 
+                                             alt="Foto" 
+                                             class="rounded-circle shadow-sm" 
+                                             width="60" 
+                                             height="60">
+                                    </td>
+                                    <td>{{ aplicacion.usuario.username }}</td>
+                                    <td>{{ aplicacion.usuario.email }}</td>
+                                    <td>{{ aplicacion.usuario.biografia }}</td>
+                                    <td>
+                                        <span class="badge bg-secondary rounded-pill">
+                                            {{ aplicacion.usuario.num_trabajos }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-warning">⭐</span> 
+                                        {{ aplicacion.usuario.puntuacion_promedio|floatformat:1 }}
+                                    </td>
+                                    <td>
+                                        {% with redes=redes_por_usuario|get_item:aplicacion.usuario.id %}
+                                            {% if redes %}
+                                                <div class="d-flex flex-column gap-1">
+                                                    {% if redes.instagram %}
+                                                        <small class="text-muted">Instagram: <span class="fw-bold">{{ redes.instagram }}</span></small>
+                                                    {% endif %}
+                                                    {% if redes.tiktok %}
+                                                        <small class="text-muted">TikTok: <span class="fw-bold">{{ redes.tiktok }}</span></small>
+                                                    {% endif %}
+                                                    {% if redes.youtube %}
+                                                        <small class="text-muted">YouTube: <span class="fw-bold">{{ redes.youtube }}</span></small>
+                                                    {% endif %}
+                                                    {% if redes.twicht %}
+                                                        <small class="text-muted">Twitch: <span class="fw-bold">{{ redes.twicht }}</span></small>
+                                                    {% endif %}
+                                                </div>
+                                            {% else %}
+                                                <span class="text-muted small">No tiene redes sociales</span>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill 
+                                            {% if aplicacion.estado_aplicacion == 'solicitada' %}bg-info
+                                            {% elif aplicacion.estado_aplicacion == 'aceptada' %}bg-success
+                                            {% else %}bg-danger{% endif %}">
+                                            {{ aplicacion.get_estado_aplicacion_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="" class="d-flex gap-2">
+                                            {% csrf_token %}
+                                            <button type="submit" name="estado" value="aceptada" 
+                                                    class="btn btn-outline-success btn-sm rounded-pill">
+                                                <i class="fas fa-check me-1"></i>Aceptar
+                                            </button>
+                                            <button type="submit" name="estado" value="denegada" 
+                                                    class="btn btn-outline-danger btn-sm rounded-pill">
+                                                <i class="fas fa-times me-1"></i>Rechazar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
-                <p class="text-muted text-center">No hay usuarios que hayan aplicado aún.</p>
+                <div class="text-center py-5">
+                    <i class="fas fa-users text-muted mb-3" style="font-size: 3rem;"></i>
+                    <p class="text-muted mb-0">No hay usuarios que hayan aplicado aún.</p>
+                </div>
             {% endif %}
         </div>
     </div>
 </div>
-
-                                
-  
-
 {% endblock %}
