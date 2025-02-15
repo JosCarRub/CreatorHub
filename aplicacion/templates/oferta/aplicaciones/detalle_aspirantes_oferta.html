@@ -1,0 +1,57 @@
+{% extends 'principales/base.html' %}
+
+{% block basePrincipal %}
+<!-- Sección de Usuarios que aplicaron -->
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Usuarios que aplicaron a esta oferta</h4>
+        </div>
+        <div class="card-body">
+            {% if aplicaciones %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Estado</th>
+                            <th>Ver perfil</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aplicacion in aplicaciones %}
+                            <tr>
+                                <td>{{ aplicacion.usuario }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if aplicacion.estado_aplicacion == 'solicitada' %}bg-info
+                                        {% elif aplicacion.estado_aplicacion == 'aceptada' %}bg-success
+                                        {% else %}bg-danger{% endif %}">
+                                        {{ aplicacion.get_estado_aplicacion_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'detalle_perfil_aspirantes_oferta' aplicacion.usuario.pk %}" class="btn btn-primary">Ver perfil</a>
+                                </td>
+                                <td>
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm">Aceptar</button>
+                                        <button type="submit" name="estado" value="denegada" class="btn btn-danger btn-sm">Rechazar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted text-center">No hay usuarios que hayan aplicado aún.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+                                
+  
+
+{% endblock %}

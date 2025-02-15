@@ -221,53 +221,33 @@ class AplicarOfertaView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
+    model = AplicacionOferta
+    template_name = 'oferta/aplicaciones/detalle_aspirantes_oferta.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aplicaciones'] = AplicacionOferta.objects.all()
+        return context
+    
+
+class DetallePerfilAspirantesOfertaView(LoginRequiredMixin, DetailView):
+    model = AplicacionOferta
+    template_name = 'oferta/aplicaciones/detalle_perfil_aspirantes_oferta.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aplicaciones'] = AplicacionOferta.objects.all()
+        return context
+
+    
+
+    
+
     
     
 
 
-
-
-
-
-    # def form_valid(self, form):
-    #     if AplicacionOferta.objects.filter(usuario=self.request.user, oferta=oferta).exists():
-    #         return self.form_invalid(form)
-    #     else:
-
-    #         oferta = get_object_or_404(Oferta, pk=self.kwargs['pk'])
-    #         self.object = form.save(commit=False)
-    #         self.object.usuario = self.request.user 
-    #         self.object.oferta = oferta
-    #         self.object.fecha_expiracion = oferta.fecha_expiracion
-    #         self.object.save()
-    #         return super().form_valid(form)
-    
-
-    
-
-
-
-
-
-    # def post(self, request, pk):
-    #     oferta = get_object_or_404(Oferta, pk=pk)
-    #     usuario = request.user
-
-    #     # Verificar si el usuario ya ha aplicado a esta oferta
-    #     aplicacion_existente = AplicacionOferta.objects.filter(usuario=usuario, oferta=oferta).exists()
-
-    #     if aplicacion_existente:
-    #         messages.warning(request, "Ya has aplicado a esta oferta.")
-    #     else:
-    #         AplicacionOferta.objects.create(
-    #             usuario=usuario,
-    #             oferta=oferta,
-    #             estado_aplicacion='solicitada',
-    #             fecha_expiracion=oferta.fecha_expiracion  # Tomar la fecha de la oferta
-    #         )
-    #         messages.success(request, "Has aplicado correctamente a la oferta.")
-
-    #     return redirect('perfil')  # Redirige de nuevo al detalle de la oferta
 
 
 
