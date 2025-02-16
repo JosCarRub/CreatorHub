@@ -1,0 +1,30 @@
+{% extends 'principales/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block basePrincipal %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-light">
+                <div class="card-header bg-dark text-white text-center py-4">
+                    <h3>PUNTUA</h3>
+                    <p class="lead mb-0">Introduce puntuaciación que le das al usuario tal tal tal</p>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg w-100">
+                                PUNTUAR
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

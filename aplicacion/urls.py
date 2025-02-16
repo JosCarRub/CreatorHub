@@ -31,6 +31,11 @@ urlpatterns = [
     path('aplicar_oferta/<int:pk>', AplicarOfertaView.as_view(), name='aplicar_oferta'),
     #APLICACIONES
     path('detalle_aspirantes_oferta/<int:pk>', DetalleAspirantesOfertaView.as_view(), name='detalle_aspirantes_oferta'),
+    path('puntuar_aspirante_oferta/', PuntuarAplicacionView.as_view(), name='puntuar_aspirante_oferta'),
+
+
+
+    
 
      
     

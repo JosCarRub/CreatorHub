@@ -122,7 +122,7 @@ class AplicacionOferta(models.Model):
     estado_aplicacion = models.CharField(max_length=100, choices=ESTADO_APLICACION_OFERTA,
                                          default='solicitada',verbose_name='Estado de la aplicación a la oferta')
     
-    fecha_expiracion = models.DateField()
+    fecha_expiracion = models.DateField(blank=True, null=True)
 
     puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
 

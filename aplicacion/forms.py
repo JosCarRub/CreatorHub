@@ -50,6 +50,11 @@ class AplicacionOfertaForm(forms.ModelForm):
         model = AplicacionOferta
         fields = []
 
+class PuntuarAplicacionForm(forms.ModelForm):
+    class Meta:
+        model = AplicacionOferta
+        fields = ['puntuacion']
+
 
 
        

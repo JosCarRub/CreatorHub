@@ -308,6 +308,15 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
 
         except Usuario.DoesNotExist:
             print("Error: Usuario no encontrado")
+    
+class PuntuarAplicacionView(LoginRequiredMixin, CreateView):
+        form_class = PuntuarAplicacionForm
+        template_name = 'oferta/aplicaciones/puntuar_aspirante_oferta.html'
+        success_url = reverse_lazy('principal')
+
+        def form_valid(self, form):
+            return super().form_valid(form)
+
 
 
 
