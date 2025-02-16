@@ -126,6 +126,8 @@ class AplicacionOferta(models.Model):
 
     puntuacion = models.CharField(max_length=10, choices=RANGO_PUNTUACION, blank=True, null=True)
 
+    trabajo_puntuado = models.BooleanField(default=False)
+
     class Meta:
         verbose_name = 'Aplicación a la oferta'
         verbose_name_plural = 'Aplicaciones a las ofertas'

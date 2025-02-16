@@ -259,7 +259,7 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
         oferta = self.get_object()
         
         aplicacion_id = request.POST.get('aplicacion_id')
-        aplicacion = AplicacionOferta.objects.get(id=aplicacion_id)
+        aplicacion = get_object_or_404(AplicacionOferta, id=aplicacion_id)
 
         estado = request.POST.get('estado')
         boolean_oferta = True
@@ -269,16 +269,14 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
             aplicacion.save()
             self.enviar_correo(aplicacion.usuario.id, boolean_oferta)
 
-        elif estado == 'denegada':
+        elif estado == 'denegada' and aplicacion.estado_aplicacion != 'denegada':
             aplicacion.estado_aplicacion = 'denegada'
             aplicacion.save()
             boolean_oferta = False
             self.enviar_correo(aplicacion.usuario.id, boolean_oferta)
         
-        
-
-        
         return redirect('detalle_aspirantes_oferta', pk=oferta.pk)
+    
 
     def correo_aceptada(self, email_destino):
         subject = "¡Tu oferta ha sido aceptada!"
@@ -298,6 +296,10 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
         try:
             usuario = Usuario.objects.get(id=usuario_id) 
             email_destino = usuario.email
+            if not usuario.email:
+                print(f"Error: Usuario {usuario_id} no tiene email registrado.")
+                
+            
             if boolean_oferta:
                 self.correo_aceptada(email_destino)  
                 print(f"Correo enviado a {email_destino}")
@@ -309,13 +311,59 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
         except Usuario.DoesNotExist:
             print("Error: Usuario no encontrado")
     
-class PuntuarAplicacionView(LoginRequiredMixin, CreateView):
+class PuntuarAplicacionView(LoginRequiredMixin, UpdateView):
+        model = AplicacionOferta
         form_class = PuntuarAplicacionForm
         template_name = 'oferta/aplicaciones/puntuar_aspirante_oferta.html'
         success_url = reverse_lazy('principal')
 
+        def get_object(self, queryset=None):
+            #coger oferta y la aplicación desde la url
+            oferta = get_object_or_404(Oferta, pk=self.kwargs['oferta_id'])
+            aplicacion = get_object_or_404(AplicacionOferta, oferta=oferta, pk=self.kwargs['aplicacion_id'])
+            return aplicacion  # retorno la aplicación relacionada con la oferta
+
+
+        
+        
         def form_valid(self, form):
-            return super().form_valid(form)
+
+            aplicacion = form.instance
+            
+
+            if aplicacion.trabajo_puntuado:
+                # Si ya fue puntuado, no permitir la puntuación nuevamente
+                form.add_error(None, 'Este trabajo ya ha sido puntuado.')
+                return self.form_invalid(form)
+            
+            usuario = aplicacion.usuario
+
+            form.instance.puntuacion = form.cleaned_data['puntuacion']
+            aplicacion.puntuacion = form.instance.puntuacion
+            aplicacion.trabajo_puntuado = True 
+            form.instance.save()
+
+            #sumamos el trabajo realizado al modelo usuario
+            usuario.num_trabajos += 1
+            usuario.save()
+
+            #calcular aplicaciones aceptadas del usuario
+            aplicaciones = AplicacionOferta.objects.filter(usuario=usuario, estado_aplicacion='aceptada')
+
+
+            total_puntuacion = sum([int(app.puntuacion) for app in aplicaciones if app.puntuacion])  # sumar las puntuaciones
+
+            if usuario.num_trabajos > 0:
+                nuevo_promedio = total_puntuacion / usuario.num_trabajos
+
+            
+            usuario.puntuacion_promedio = nuevo_promedio
+            usuario.save()
+
+
+
+            return redirect('detalle_aspirantes_oferta', pk=form.instance.oferta.pk)
+
 
 
 

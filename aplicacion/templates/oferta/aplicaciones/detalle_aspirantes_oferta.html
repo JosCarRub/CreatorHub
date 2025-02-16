@@ -22,8 +22,7 @@
                                 <th class="fw-bold">Puntuación Promedio</th>
                                 <th class="fw-bold">Redes Sociales</th>
                                 <th class="fw-bold">Estado</th>
-                                <th class="fw-bold">Acción</th>
-                                
+                                <th class="fw-bold">Acción</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -96,7 +95,7 @@
                                     {% if aplicacion.estado_aplicacion == 'aceptada'%}
                                     <td>
                                         <div class="mt-3">
-                                            <a href="{% url 'puntuar_aspirante_oferta' %}" class="btn btn-outline-primary"> 
+                                            <a href="{% url 'puntuar_aspirante_oferta' oferta.pk aplicacion.id %}" class="btn btn-outline-primary"> 
                                                 Trabajo Realizado
                                             </a>
                                           </div>
