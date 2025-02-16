@@ -16,7 +16,7 @@ class Usuario(AbstractUser):
     foto_perfil = models.ImageField(upload_to='fotos_perfil/', default='fotos_perfil/default.png')
     rol = models.CharField(max_length=10, choices=ROLES, default='PARTICULAR')
     num_trabajos = models.PositiveIntegerField(default=0, blank=True, null=True)
-    puntuacion_promedio = models.FloatField(default=0.0, blank=True, null=True)
+    puntuacion_promedio = models.DecimalField(default=0.0, max_digits=3,decimal_places=2, blank=True, null=True)
 
    
     def __str__(self):

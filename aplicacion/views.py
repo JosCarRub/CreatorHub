@@ -122,6 +122,7 @@ class UsuarioActualizarPerfilView(LoginRequiredMixin, UpdateView):
         return context
     
     def get_success_url(self):
+        messages.success(self.request, 'Perfil actualizado con éxito')
         return reverse_lazy('perfil')
 
 #ACTUALIZAR REDES EN PERFIL USUARIO
@@ -155,6 +156,7 @@ class UsuarioCompletarRedesView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
         self.object.save()
+        messages.success(self.request, '¡Enhorabuena! Redes sociales completadas')
         return super().form_valid(form)
     
 
@@ -196,12 +198,14 @@ class CrearOfertaView(LoginRequiredMixin, CreateView):
             tipos = tipoOferta_formset.save(commit=False) 
 
             if not tipos: 
-                form.add_error(None, "Debes seleccionar al menos un tipo de oferta. Si no encuentras ninguna categoría adecuada, selecciona 'Otra'.\n ¡Si quieres proponer una nueva categoría que no exista, ponte en contacto con nosotros!")
+                messages.error(self.request, "Debes seleccionar al menos un tipo de oferta. Si no encuentras ninguna categoría adecuada, selecciona 'Otra'.\n ¡Si quieres proponer una nueva categoría que no exista, ponte en contacto con nosotros!")
                 return self.form_invalid(form)
 
             for tipo in tipos:
                 tipo.oferta = self.object  # Relacionamos cada tipo con la oferta creada
                 tipo.save()  # Guardamos en la BD cada TipoDeOferta
+
+            messages.success(self.request, "¡Oferta creada exitosamente!")
             return super().form_valid(form)  # Si todo es válido, continuar con la vista
         else:
             return self.form_invalid(form)  
@@ -235,8 +239,16 @@ class AplicarOfertaView(LoginRequiredMixin, CreateView):
 
     def form_valid(self,form):
         oferta = get_object_or_404(Oferta, pk=self.kwargs['pk'])
+        usuario = self.request.user
+
+        if AplicacionOferta.objects.filter(usuario=usuario, oferta=oferta).exists():
+            self.form_invalid(form)
+            messages.error(self.request, "Ya has aplicado a esta oferta")
+            return redirect('detalle_oferta', pk=self.kwargs['pk'])
+
+
         self.object = form.save(commit=False)
-        self.object.usuario = self.request.user
+        self.object.usuario = usuario
         self.object.oferta = oferta
         self.object.fecha_expiracion = oferta.fecha_expiracion
         
@@ -281,19 +293,21 @@ class DetalleAspirantesOfertaView(LoginRequiredMixin, DetailView):
             aplicacion.estado_aplicacion = 'aceptada'
             aplicacion.save()
             self.enviar_correo(aplicacion.usuario.id, boolean_oferta)
+            messages.success(self.request, "¡Email enviado al usuario!")
 
         elif estado == 'denegada' and aplicacion.estado_aplicacion != 'denegada':
             aplicacion.estado_aplicacion = 'denegada'
             aplicacion.save()
             boolean_oferta = False
             self.enviar_correo(aplicacion.usuario.id, boolean_oferta)
+            messages.success(self.request, "¡Email enviado al usuario!")
         
         return redirect('detalle_aspirantes_oferta', pk=oferta.pk)
     
 
     def correo_aceptada(self, email_destino):
         subject = "¡Tu oferta ha sido aceptada!"
-        message = "¡Felicidades! Tu aplicación ha sido aceptada. Puedes continuar con el siguiente paso."
+        message = "¡Felicidades! Tu aplicación ha sido aceptada."
         from_email = 'ddjangoappservidor@gmail.com'
         email_usuario = email_destino
         send_mail(subject, message, from_email, [email_usuario])
@@ -345,8 +359,8 @@ class PuntuarAplicacionView(LoginRequiredMixin, UpdateView):
             
 
             if aplicacion.trabajo_puntuado:
-                # Si ya fue puntuado, no permitir la puntuación nuevamente
-                form.add_error(None, 'Este trabajo ya ha sido puntuado.')
+                
+                messages.error(self.request, "¡No puedes puntuar un trabajo más de una vez!")
                 return self.form_invalid(form)
             
             usuario = aplicacion.usuario
@@ -373,7 +387,7 @@ class PuntuarAplicacionView(LoginRequiredMixin, UpdateView):
             usuario.puntuacion_promedio = nuevo_promedio
             usuario.save()
 
-
+            messages.success(self.request, "¡Puntuación registrada!")
 
             return redirect('detalle_aspirantes_oferta', pk=form.instance.oferta.pk)
 
