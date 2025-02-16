@@ -5,26 +5,23 @@
 
 {% if user.rol == 'PARTICULAR' %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4">¡Hola {{user.username}}!</h1>
-      <p class="lead">Echa un vistazo a las ofertas que tenemos para ti</p>
+<div class="py-5" >
+    <div class="container text-center text-dark py-4">
+        <h1 class="display-4 fw-bold mb-3">¡Hola {{user.username}}! 👋</h1>
+        <p class="lead opacity-75">Echa un vistazo a las ofertas que tenemos para ti</p>
     </div>
 </div>
 
 
 
-
-
-
-<div class="container py-4">
+<div class="container py-4" >
     <!-- Card principal con sombra y bordes modernos -->
     <div class="card shadow-lg border-0 rounded-3">
         <!-- Header de la card con fondo blanco -->
         <div class="card-header bg-white border-0 py-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0 fw-bold text-warning">Lista de Ofertas</h5>
-                <span class="badge bg-primary rounded-pill">Ofertas Disponibles</span>
+                <h5 class="card-title mb-0 fw-bold text-dark">Lista de Ofertas</h5>
+                <span class="badge bg-success rounded-pill">Ofertas Disponibles</span>
             </div>
         </div>
         
@@ -50,9 +47,9 @@
                         {% for oferta in ofertas %}
                         <tr>
                             <td class="px-4 py-3">
-                                <a href="#" class="text-decoration-none link-dark fw-semibold">
+                                <p class="text-decoration-none text-dark fw-semibold text-uppercase">
                                     {{ oferta.usuario }}
-                                </a>
+                                </p>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="text-wrap" style="max-width: 200px;">
@@ -95,9 +92,11 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="badge bg-light text-dark">
-                                    <a href="{% url 'detalle_oferta' oferta.pk %}" class="btn btn-outline-success" >¡ME INTERESA!</a>
-                                </span>
+                                <a href="{% url 'detalle_oferta' oferta.pk %}" 
+                                   class="btn btn-sm px-4 text-white rounded-pill"
+                                   style="background: linear-gradient(45deg, #6a11cb, #2575fc)">
+                                    ¡ME INTERESA!
+                                </a>
                             </td>
                         </tr>
                         {% empty %}
@@ -116,13 +115,12 @@
 
 {% else %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4">Saludos {{user.username}}!</h1>
-      <p class="lead">Aquí tienes tus ofertas publicadas y las aplicaciones a las mismas</p>
+<div class="py-5" >
+    <div class="container text-center text-dark py-4">
+        <h1 class="display-4 fw-bold mb-3">¡Saludos {{user.username}}! 👋</h1>
+        <p class="lead opacity-75">Echa un vistazo a las ofertas que tenemos para ti</p>
     </div>
 </div>
-
 <!-- OFERTAS PUBLICAS POR EMPRESA -->
 
 <div class="container py-4">
