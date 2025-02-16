@@ -10,6 +10,8 @@ urlpatterns = [
 
     #PÁGINA PRINCIPAL
     path('principal/', PrincipalListadoOfertasView.as_view(), name='principal'),
+    path('top_usuarios/', TopUsuariosView.as_view(), name='top_usuarios'),
+
 
 
 

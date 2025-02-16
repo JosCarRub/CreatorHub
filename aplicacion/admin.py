@@ -5,8 +5,11 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
 
+admin.site.register(RedesSocialesUsuario)
 admin.site.register(Oferta)
 admin.site.register(TipoDeOferta)
+admin.site.register(AplicacionOferta)
+
 
 
 class MyAdmin(UserAdmin):
@@ -20,9 +23,7 @@ class MyAdmin(UserAdmin):
                     "biografia",
                     "foto_perfil",
                     "rol",
-                    "instagram",
-                    "tiktok",
-                    "otras_rrss",
+                    
                     "num_trabajos",
                     "puntuacion_promedio",
                 )
@@ -38,9 +39,7 @@ class MyAdmin(UserAdmin):
                     "biografia",
                     "foto_perfil",
                     "rol",
-                    "instagram",
-                    "tiktok",
-                    "otras_rrss",
+                    
                     "num_trabajos",
                     "puntuacion_promedio",
                 )

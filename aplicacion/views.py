@@ -9,6 +9,7 @@ from django.contrib.auth.forms import *
 from django.contrib import messages
 from django.forms import inlineformset_factory, modelformset_factory
 from django.core.mail import send_mail
+from django.db.models import Count
 
 
 
@@ -55,6 +56,25 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
         }
 
         context["ofertas_aplicaciones"] = aplicaciones_por_oferta
+        
+        return context
+
+class TopUsuariosView(LoginRequiredMixin, ListView):
+    model = Usuario
+    template_name = 'principales/top_usuarios.html'
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        top_usuarios = Usuario.objects.filter(rol='PARTICULAR'
+        ).annotate(trabajos_realizados=Count('num_trabajos')
+        ).order_by('-puntuacion_promedio', '-num_trabajos')[:10] 
+        
+        context['top_usuarios'] = top_usuarios
+
+        if top_usuarios.count() > 10:
+            top_usuarios = top_usuarios[:10]
         
         return context
     
@@ -137,13 +157,6 @@ class UsuarioCompletarRedesView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
     
-
-
-        
-
-
-
-
 
 #OFERTAS
 

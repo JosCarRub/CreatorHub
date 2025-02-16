@@ -1,0 +1,38 @@
+{% extends 'principales/base.html' %}
+{% load custom_filters %}
+
+{% block basePrincipal %}
+
+<!-- Top 10 clientes -->
+<div class="container">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Top 10 Usuarios</h5>
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Número de trabajos realizados</th>
+                        <th>Puntuación promedio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for usuario in top_usuarios%}
+                    <tr>
+                        
+                        <td>{{usuario.username}}</td>
+                        <td>{{usuario.email}}</td>
+                        <td>{{usuario.num_trabajos}}</td>
+                        <td>{{usuario.puntuacion_promedio}}</td>
+                    </tr>
+                    {% endfor%}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
