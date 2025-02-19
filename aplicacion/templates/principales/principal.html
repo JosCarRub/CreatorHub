@@ -11,6 +11,45 @@
         <p class="lead opacity-75">Echa un vistazo a las ofertas que tenemos para ti</p>
     </div>
 </div>
+<!--FILTROS-->
+<div class="container mt-5">
+    <form method="GET" class="row g-3">
+        
+        <div class="col-md-6">
+            <label for="plataforma" class="form-label">Filtrar por plataforma:</label>
+            <select class="form-select" name="plataforma" id="plataforma">
+                <option value="" {% if not request.GET.plataforma %}selected{% endif %}>Todas</option>
+                <option value="instagram" {% if request.GET.plataforma == "instagram" %}selected{% endif %}>Instagram</option>
+                <option value="tiktok" {% if request.GET.plataforma == "tiktok" %}selected{% endif %}>TikTok</option>
+                <option value="youtube" {% if request.GET.plataforma == "youtube" %}selected{% endif %}>YouTube</option>
+                <option value="twitch" {% if request.GET.plataforma == "twitch" %}selected{% endif %}>Twitch</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="tipo_oferta" class="form-label">Filtrar por tipo de oferta:</label>
+            <select class="form-select" name="tipo_oferta" id="tipo_oferta">
+                <option value="" {% if not request.GET.tipo_oferta %}selected{% endif %}>Todos</option>
+                <option value="gastro" {% if request.GET.tipo_oferta == "gastro" %}selected{% endif %}>Gastronomía</option>
+                <option value="moda" {% if request.GET.tipo_oferta == "moda" %}selected{% endif %}>Moda</option>
+                <option value="hogar" {% if request.GET.tipo_oferta == "hogar" %}selected{% endif %}>Hogar</option>
+                <option value="tecnologia" {% if request.GET.tipo_oferta == "tecnologia" %}selected{% endif %}>Tecnología</option>
+                <option value="eventos" {% if request.GET.tipo_oferta == "eventos" %}selected{% endif %}>Eventos</option>
+                <option value="otra" {% if request.GET.tipo_oferta == "otra" %}selected{% endif %}>Otro</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-lg btn-outline-dark w-30">Filtrar</button>
+        </div>
+        
+        
+        
+    </form>
+</div>
+
+
+
 
 
 
@@ -21,7 +60,7 @@
         <div class="card-header bg-white border-0 py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0 fw-bold text-dark">Lista de Ofertas</h5>
-                <span class="badge bg-success rounded-pill">Ofertas Disponibles</span>
+                <span class="badge bg-success rounded-pill">Ofertas Disponibles:<span class="badge bg-dark rounded-pill">{{total}}</span></span> 
             </div>
         </div>
         
@@ -78,7 +117,7 @@
 
                             <td class="px-4 py-3">
                                 {% for tipo in oferta.get_oferta_tipos.all %}
-                                    {{ tipo.tipo }}
+                                    {{ tipo.get_tipo_display }} <!--forma legible-->
                                 {% empty %}
                                     Sin categoría
                                 {% endfor %}
@@ -111,6 +150,33 @@
         </div>
     </div>
 </div>
+             <!-- Controles de paginación -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if request.GET.plataforma %}&plataforma={{ request.GET.plataforma }}{% endif %}{% if request.GET.tipo_oferta %}&tipo_oferta={{ request.GET.tipo_oferta }}{% endif %}">&laquo; Primera</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.plataforma %}&plataforma={{ request.GET.plataforma }}{% endif %}{% if request.GET.tipo_oferta %}&tipo_oferta={{ request.GET.tipo_oferta }}{% endif %}">Anterior</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.plataforma %}&plataforma={{ request.GET.plataforma }}{% endif %}{% if request.GET.tipo_oferta %}&tipo_oferta={{ request.GET.tipo_oferta }}{% endif %}">Siguiente</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.plataforma %}&plataforma={{ request.GET.plataforma }}{% endif %}{% if request.GET.tipo_oferta %}&tipo_oferta={{ request.GET.tipo_oferta }}{% endif %}">Última &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
 
 {% else %}
 

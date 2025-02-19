@@ -25,7 +25,7 @@
                                     
                                     <div id="div_id_username" class="mb-3">
                                         <label for="id_username" class="form-label requiredField">
-                                            Nombre
+                                            Nombre de usuario
                                         </label>
                                         <input type="text" name="username" maxlength="150" class="textinput form-control" required id="id_username">
                                     </div>
@@ -75,6 +75,18 @@
                                     </div>
         
                                 </form>
+
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 
                             </div>
                         </div>

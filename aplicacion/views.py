@@ -26,6 +26,7 @@ class RegistroParticularView(CreateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+        
 
 class RegistroEmpresaView(CreateView):
     form_class = UsuarioEmpresaCreationForm
@@ -39,6 +40,7 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
     model = Oferta
     template_name = 'principales/principal.html'
     context_object_name = 'ofertas'
+    paginate_by= 5
    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,9 +57,39 @@ class PrincipalListadoOfertasView(LoginRequiredMixin, ListView):
             for oferta in context["ofertas"]
         }
 
+        total_ofertas = self.get_queryset().count()
+
+        context['total'] = total_ofertas
+
         context["ofertas_aplicaciones"] = aplicaciones_por_oferta
         
         return context
+    
+
+    def get_queryset(self):
+        query = super().get_queryset()
+
+        plataforma = self.request.GET.get("plataforma")
+        tipo_oferta = self.request.GET.get("tipo_oferta")
+
+
+        if plataforma == "instagram":
+            query = query.filter(instagram=True)
+        elif plataforma == "tiktok":
+            query = query.filter(tiktok=True)
+        elif plataforma == "youtube":
+            query = query.filter(youtube=True)
+        elif plataforma == "twitch":
+            query = query.filter(twitch=True)
+
+        if tipo_oferta:
+            query = query.filter(get_oferta_tipos__tipo=tipo_oferta)
+
+
+        
+
+        return query
+
 
 class TopUsuariosView(LoginRequiredMixin, ListView):
     model = Usuario
@@ -390,107 +422,6 @@ class PuntuarAplicacionView(LoginRequiredMixin, UpdateView):
             messages.success(self.request, "¡Puntuación registrada!")
 
             return redirect('detalle_aspirantes_oferta', pk=form.instance.oferta.pk)
-
-
-
-
-
-
-
-
-    
-
-    
-
-    
-    
-
-
-
-
-
-
-  
-#CANCELAR = CAMBIAR ESTADO --> OFERTAS
-
-
-#APLICAR A OFERTAS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     ofertas = Oferta.objects.all().distinct()
-    #     context["ofertas"] = ofertas
-
-    #     #Línea para crear campos de otro modelo en un formulario de un modelo padre
-    #     TiposDeOfertaFormSet = inlineformset_factory(Oferta, TipoDeOferta, fields=['tipo'], extra=1, can_delete=False)
-    #     RedesSocialesOfertaFormSet = inlineformset_factory(Oferta, RedesSocialesOferta, fields=['instagram', 'tiktok', 'youtube'], extra=1, can_delete=False)
-
-    #     if self.request.POST:
-    #         context['tipoOferta_formset'] = TiposDeOfertaFormSet(self.request.POST)
-    #         context['redesSociales_formset'] = RedesSocialesOfertaFormSet(self.request.POST)
-
-    #     else:
-    #         context['tipoOferta_formset'] = TiposDeOfertaFormSet()
-    #         context['redesSociales_formset'] = RedesSocialesOfertaFormSet()
-    #     return context
-    
-    
-    
-    # def form_valid(self, form):
-    #     context = self.get_context_data()
-    #     tipoOferta_formset = context['tipoOferta_formset']
-    #     redesSociales_formset = context['redesSociales_formset']
-
-    #     self.object = form.save(commit=False)
-    #     self.object.usuario = self.request.user  # asignar el usuario a la oferta, si no no se rellena el campo ID de usuario
-    #     self.object.save()
-
-    #     if redesSociales_formset.is_valid():
-    #         rrss = redesSociales_formset.save(commit=False)
-
-    #         rrss.oferta = self.object
-    #         rrss.usuario = self.request.user
-    #         rrss.save()
-    #     else:
-    #         return self.form_invalid(form)
-
-    #     if tipoOferta_formset.is_valid():  
-    #         tipos = tipoOferta_formset.save(commit=False) 
-
-    #         if not tipos: 
-    #             form.add_error(None, "Debes seleccionar al menos un tipo de oferta. Si no encuentras ninguna categoría adecuada, selecciona 'Otra'.\n ¡Si quieres proponer una nueva categoría que no exista, ponte en contacto con nosotros!")
-    #             return self.form_invalid(form)
-
-    #         for tipo in tipos:
-    #             tipo.oferta = self.object  # Relacionamos cada tipo con la oferta creada
-    #             tipo.save()  # Guardamos en la BD cada TipoDeOferta
-    #         return super().form_valid(form)  # Si todo es válido, continuar con la vista
-    #     else:
-    #         return self.form_invalid(form)  # Si el formset no es válido, rechazar la solicitud
 
 
     

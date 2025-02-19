@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.forms import ValidationError
 from django.contrib.auth.models import AbstractUser
@@ -28,10 +29,7 @@ class Usuario(AbstractUser):
         else:
             return 'No es empresa'
     
-    def clean(self):
-        super().clean()
-        if len(self.biografia) > 420:
-            raise ValidationError({'biografia': 'El texto no puede tener más de 420 caracteres.'})
+    
 
 class RedesSocialesUsuario(models.Model):
 
@@ -68,9 +66,11 @@ class Oferta(models.Model):
     def __str__(self):
         return f'oferta publicada por {self.usuario}'
     
-    # def numero_aspirantes(self):
-
-    #     return self.get_oferta_aplicaciones.count()
+    def clean(self):
+        if self.fecha_expiracion < date.today():
+            raise ValidationError('ERROR: La fecha de expiración no puede ser anterior a hoy.')
+    
+    
 
     
   
@@ -134,10 +134,3 @@ class AplicacionOferta(models.Model):
 
     def __str__(self):
         return f'Estado de la oferta: {self.estado_aplicacion} | Fecha de expiración: {self.fecha_expiracion}'
-    
-   
-
-#HAY QUE HACER VALIDACIONES
-    
-#HACER TRANSACCIONES, CUANDO ENTRO COMO EMPRESA DEBE SALIR EN PRINCIPAL TODAS LAS OFERTAS DE ESA EMPRESA Y METERLE UN BOTON PARA PODER CREAR UNO NUEVO
-# COMO PARTICULAR TODAS LAS OFERTAS CON UN FILTRO
