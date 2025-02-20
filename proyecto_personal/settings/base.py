@@ -31,7 +31,7 @@ with open(BASE_DIR / 'config.yaml') as f:
 SECRET_KEY = 'django-insecure-y!=9(!(^@$j79m9kb&v)a3-f1ksb*@pl6a(y2f=cq3+b2q3@9%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = True
 
 #ALLOWED_HOSTS = []
 
