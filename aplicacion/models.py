@@ -29,6 +29,11 @@ class Usuario(AbstractUser):
         else:
             return 'No es empresa'
     
+    def save(self, *args, **kwargs):
+        if self.rol == 'EMPRESA' and self.foto_perfil == 'fotos_perfil/default.png':
+            self.foto_perfil = 'fotos_perfil/empresa_default.png' 
+        super().save(*args, **kwargs)
+    
     
 
 class RedesSocialesUsuario(models.Model):
