@@ -1,7 +1,7 @@
 from .base import *
 import yaml
 
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['josecarloscr.ieshm.org']
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
